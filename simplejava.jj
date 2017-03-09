@@ -105,7 +105,7 @@ ASTProgram program():
     ASTClass ast_class;
 }
 {
-    (ast_class = class_def() {c.addElement(ast_class); System.out.println("class");})* main = main_func() {f.addElement(main);}
+    (ast_class = class_def() {c.addElement(ast_class);})* main = main_func() {f.addElement(main);}
     {return new ASTProgram(c, f, 0);}
     <EOF>
 }
@@ -180,22 +180,30 @@ ASTStatement var_statement():
     boolean isArrayExpression = false;
 }
 {
-    
+
     ( LOOKAHEAD(2) type = <IDENTIFIER>.image name = <IDENTIFIER>.image (arraydimension = dimension_consumer() {isArrayExpression = true;})? {isDefinition = true;}
     | LOOKAHEAD(2) variable_ = variable()
     | name = <IDENTIFIER>.image {variable_ = new ASTBaseVariable(name, 0);}
     )
 
     (<SEMICOLON> | <EQUALS> init = expression() <SEMICOLON>)
-    
-    
+
+
     {   if(isDefinition){
             if (isArrayExpression){
-                return new ASTVariableDefStatement(type, name, arraydimension, 0);
-            }else{
-                return new ASTVariableDefStatement(type, name, 0);
+                if(init == null) {
+                    return new ASTVariableDefStatement(type, name, arraydimension, 0);
+                } else {
+                    return new ASTVariableDefStatement(type, name, arraydimension, init, 0);
+                }
+            } else{
+                if(init == null) {
+                    return new ASTVariableDefStatement(type, name, 0);
+                } else {
+                    return new ASTVariableDefStatement(type, name, init, 0);
+                }
             }
-        }else{
+        } else{
             return new ASTAssignmentStatement(variable_, init, 0);
         }
     }
@@ -229,7 +237,7 @@ ASTExpression expression():
 {
     <LEFT_PARENTHESIS> init = expression() <RIGHT_PARENTHESIS> {return init;}
 
-|   LOOKAHEAD(2) init = new_expression() {return init;} //Idk why this was complaining. I used a <NEW> token afterall..
+|   init = new_expression() {return init;}
 
 
 |   variable_ = variable() {init = new ASTVariableExpression(variable_, 0); return init;}
