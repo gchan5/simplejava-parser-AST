@@ -119,6 +119,7 @@ ASTFunction main_func():
         {return new ASTFunction(type, name, new ASTFormals(), statement, 0);}
 }
 
+
 // Matches any kind of statement:
 //      generic variable definitions
 //      generic variable assignments
@@ -137,7 +138,7 @@ ASTStatements statements():
 ASTStatement var_statement():
 {
     ASTStatement statement;
-    ASTBaseVariable variable;
+    ASTVariable variable_ = null;
     String name = "";
     String type = "";
     int arraydimension = 0;
@@ -147,8 +148,10 @@ ASTStatement var_statement():
 }
 {
     
-    (LOOKAHEAD(2) type = <IDENTIFIER>.image name = <IDENTIFIER>.image (arraydimension = dimension_consumer() {isArrayExpression = true;})? {isDefinition = true;}
-    | name = <IDENTIFIER>.image)
+    ( LOOKAHEAD(2) type = <IDENTIFIER>.image name = <IDENTIFIER>.image (arraydimension = dimension_consumer() {isArrayExpression = true;})? {isDefinition = true;}
+    | LOOKAHEAD(2) variable_ = variable()
+    | name = <IDENTIFIER>.image {variable_ = new ASTBaseVariable(name, 0);}
+    )
 
     (<SEMICOLON> | <EQUALS> init = expression() <SEMICOLON>)
     
@@ -160,7 +163,7 @@ ASTStatement var_statement():
                 return new ASTVariableDefStatement(type, name, 0);
             }
         }else{
-            return new ASTAssignmentStatement(new ASTBaseVariable(name, 0), init, 0);
+            return new ASTAssignmentStatement(variable_, init, 0);
         }
     }
 
@@ -186,6 +189,7 @@ int dimension_consumer():
 // expression */ expression
 ASTExpression expression():
 {
+    ASTVariable variable_ = null;
     ASTExpression init;
     String var;
 }
@@ -195,21 +199,39 @@ ASTExpression expression():
 |   LOOKAHEAD(2) init = new_expression() {return init;} //Idk why this was complaining. I used a <NEW> token afterall..
 
 
-|   var = <INTEGER_LITERAL>.image (init = complex(); return init;)? {init = (ASTExpression) new ASTIntegerLiteral(Integer.parseInt(var), 0); return init;}
+|   variable_ = variable() {init = new ASTVariableExpression(variable_, 0); return init;}
 
 
-
-|   var = <IDENTIFIER>.image {init = (ASTExpression) new ASTVariableExpression(new ASTBaseVariable(var, 0), 0); return init;}
+|   var = <INTEGER_LITERAL>.image {init = new ASTIntegerLiteral(Integer.parseInt(var), 0); return init;}
 }
 
-ASTExpression complex(ASTVariable base):
-{ASTExpression complex}
+ASTVariable variable():
 {
+    ASTVariable init;
+    String base;
+}
+{
+    base = <IDENTIFIER>.image
+    {init = new ASTBaseVariable(base, 0);}
 
-    <LEFT_BRACKET> expression() <RIGHT_BRACKET>
+    // repeatedly try to call complex using the current init as our base
+    // each call will update init
+    (init = complex(init))*
+    {return init;}
 
-    <PERIOD> expression()
+    // ASTVariableExpression(ASTVariable variable, int line)
+}
 
+ASTVariable complex(ASTVariable base):
+{
+    ASTExpression index;
+    Token t;
+}
+{
+    <LEFT_BRACKET> index = expression() <RIGHT_BRACKET> {
+        return new ASTArrayVariable(base, index, 0);}
+|   <PERIOD> t = <IDENTIFIER> {
+    return new ASTClassVariable(base, t.image, 0);}
 
     // ASTArrayVariable(ASTVariable base, ASTExpression index, int line)
     // ASTClassVariable(ASTVariable base, String variable, int line)
