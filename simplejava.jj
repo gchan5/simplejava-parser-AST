@@ -50,7 +50,6 @@ SKIP :
 TOKEN :
 {
     <INTEGER_LITERAL: (["0"-"9"])+>
-|   < CLASS: "class">
 |   < DO: "do">
 |   < ELSE: "else">
 |   < FALSE: "false">
@@ -69,6 +68,7 @@ TOKEN :
 |   < AND: "&&">
 |   < OR: "||">
 |   <NEW: "new">
+|   <CLASS: "class">
 |   <IDENTIFIER: ["a"-"z", "A"-"Z"](["a"-"z", "A"-"Z","0"-"9", "_"])*>
 }
 
@@ -125,7 +125,6 @@ ASTFunction main_func():
         {return new ASTFunction(type, name, new ASTFormals(), statement, 0);}
 }
 
-
 // Matches any kind of statement:
 //      generic variable definitions
 //      generic variable assignments
@@ -133,11 +132,39 @@ ASTFunction main_func():
 //      while, do-while
 //      return
 ASTStatements statements():
-{ASTStatements s = new ASTStatements(); ASTStatement statement;}
 {
-    (statement = var_statement() {s.addElement(statement);})*
+    ASTStatements s = new ASTStatements();
+    ASTStatement statement;
+}
+{
+    (statement = one_statement() {s.addElement(statement);})*
     <RIGHT_BRACE> {return s;}
 }
+
+ASTStatement one_statement():
+{ASTStatement statement;}
+{
+    (
+        statement = var_statement() {return statement;}
+    |   statement = if_else() {return statement;}
+    )
+}
+
+ASTIfStatement if_else():
+{
+    ASTExpression test = null;
+    ASTStatement thenstatement = null;
+    ASTStatement elsestatement = null;
+    int line = 0;
+}
+{
+    <IF> test = expression()
+    thenstatement = one_statement()
+    (LOOKAHEAD(2) <ELSE> elsestatement = one_statement())?
+    {return new ASTIfStatement(test, thenstatement, elsestatement, line);}
+    // ASTIfStatement(ASTExpression test, ASTStatement thenstatement, ASTStatement elsestatement, int line)
+}
+
 
 // Matches any kind of statement that is
 //       not a for, if-else, while, do-while, or return
@@ -153,15 +180,15 @@ ASTStatement var_statement():
     boolean isArrayExpression = false;
 }
 {
-
+    
     ( LOOKAHEAD(2) type = <IDENTIFIER>.image name = <IDENTIFIER>.image (arraydimension = dimension_consumer() {isArrayExpression = true;})? {isDefinition = true;}
     | LOOKAHEAD(2) variable_ = variable()
     | name = <IDENTIFIER>.image {variable_ = new ASTBaseVariable(name, 0);}
     )
 
     (<SEMICOLON> | <EQUALS> init = expression() <SEMICOLON>)
-
-
+    
+    
     {   if(isDefinition){
             if (isArrayExpression){
                 return new ASTVariableDefStatement(type, name, arraydimension, 0);
@@ -273,17 +300,19 @@ ASTNewArrayExpression new_array_instance(String type):
 }
 
 // new <ID> <LEFT_PARENTHESIS>
-ASTNewArrayExpression new_class_instance(String type):
+ASTNewClassExpression new_class_instance(String type):
 {
     String element;
     int arraydimension = 1;
     int line = 0;
 }
 {
-     <LEFT_PARENTHESIS> element = <INTEGER_LITERAL>.image <RIGHT_PARENTHESIS>
+     <LEFT_PARENTHESIS><RIGHT_PARENTHESIS>
     {
-        return new ASTNewArrayExpression(type, new ASTIntegerLiteral(Integer.parseInt(element), line), arraydimension, line);
+        return new ASTNewClassExpression(type, 0);
     }
+
+    // ASTNewClassExpression(String type, int line)
 }
 
 ASTClass class_def():
