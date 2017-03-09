@@ -23,6 +23,7 @@ SKIP :
 |   < " " >
 |   < "\n" >
 |   < "\t" >
+|   < "\r" >
 }
 
 SKIP :
@@ -100,28 +101,55 @@ ASTProgram program():
 }
 
 ASTFunction main_func():
-{ASTFunction result; ASTStatement s;}
 {
-    ("void main") <LEFT_PARENTHESIS> <RIGHT_PARENTHESIS> <LEFT_BRACE> s = statements() <RIGHT_BRACE>
-        {return new ASTFunction("void", "main", new ASTFormals(), s, 0);}
+    ASTFunction result;
+    ASTStatement statement;
+    String type;
+    String name;
+}
+{
+    type = <IDENTIFIER>.image name = <IDENTIFIER>.image
+    <LEFT_PARENTHESIS><RIGHT_PARENTHESIS>
+    <LEFT_BRACE> statement = statements()
+        {return new ASTFunction(type, name, new ASTFormals(), statement, 0);}
 }
 
 ASTStatements statements():
 {ASTStatements s = new ASTStatements(); ASTStatement statement;}
 {
-    statement = variable_def() {s.addElement(statement);}
-    {return s;}
+    (statement = var_statement() {s.addElement(statement);})*
+    <RIGHT_BRACE> {return s;}
 }
 
-ASTVariableDefStatement variable_def():
-{Token type; Token name;}
+ASTStatement var_statement():
+{   
+    ASTStatement statement;
+    ASTBaseVariable variable;
+    String name = "";
+    String type = "";
+    int arraydimension = 0;
+    ASTExpression init;
+}
 {
-    type = <IDENTIFIER> name = <IDENTIFIER> <SEMICOLON>
-        {return new ASTVariableDefStatement(type.image, name.image, 0);}
+    type = <IDENTIFIER>.image name = <IDENTIFIER>.image {variable = new ASTBaseVariable(name, 0);}
+
+    (   <SEMICOLON> {
+            return new ASTVariableDefStatement(type, name, 0);}
+    |   <EQUALS> init = expression() <SEMICOLON> {
+            return new ASTAssignmentStatement(variable, init, 0);})
+
+
+    // ASTAssignmentStatement(ASTVariable variable, ASTExpression value, int line)
+    // ASTVariableDefStatement(String type, String name, int arraydimension, ASTExpression init, int line)
 }
 
-ASTAssignmentStatement assignment_statement():
-{Token type; Token name; ASTExpression e;}
+ASTExpression expression():
 {
-    type = <IDENTIFIER> name = <IDENTIFIER> <EQUALS>
+    ASTExpression init;
+    String var;
+}
+{
+    <LEFT_PARENTHESIS> expression() <RIGHT_PARENTHESIS>
+|   var = <INTEGER_LITERAL>.image {init = (ASTExpression) new ASTIntegerLiteral(Integer.parseInt(var), 0); return init;}
+|   var = <IDENTIFIER>.image {init = (ASTExpression) new ASTVariableExpression(new ASTBaseVariable(var, 0), 0); return init;}
 }
