@@ -1,0 +1,37 @@
+/* testing statements */
+
+
+void main() {
+
+   if (x>3)
+       x++;
+    else
+       x--;
+   if (z < 2)
+      x = x + 2;
+   for (i=0; i<10; i++)
+      w = z;
+   while (x > 3) {
+      while (z > 2)
+         while (x > 4)
+            for(x=0; x<10; x++);
+   }
+   do 
+     x++;
+   while (x < 10);
+   if (x < 3)
+     if (y > 2)
+       if (z >= 2)
+          x++;
+       else 
+          y--;
+     else
+       z++;
+   else
+     w++;
+   {
+      y = y + 1;
+      z = w - 2;
+   }
+   foo(x + y, z, 4);
+}

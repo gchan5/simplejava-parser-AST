@@ -1,0 +1,149 @@
+Parsing Successful
+Function Definition: main Return type: void
+   No formal parameters
+   {
+      Assign (lhs/rhs)
+         Base Variable x
+         +
+            3
+            4
+      Assign (lhs/rhs)
+         Base Variable y
+         -
+            +
+               3
+               *
+                  4
+                  5
+            2
+      Assign (lhs/rhs)
+         Base Variable z
+         /
+            *
+               +
+                  3
+                  4
+               5
+            2
+      Assign (lhs/rhs)
+         Base Variable z
+         +
+            +
+               +
+                  +
+                     +
+                        *
+                           *
+                              *
+                                 *
+                                    3
+                                    4
+                                 5
+                              6
+                           7
+                        8
+                     9
+                  10
+               11
+            *
+               *
+                  *
+                     12
+                     13
+                  14
+               15
+      If (test/if body/else body)
+         ||
+            <
+               Base Variable x
+               2
+            >
+               Base Variable y
+               3
+         Assign (lhs/rhs)
+            Base Variable z
+            ||
+               &&
+                  >
+                     3
+                     4
+                  <
+                     5
+                     2
+               Function Call: booleanFunction
+                  Base Variable x
+         No else statement
+      Assign (lhs/rhs)
+         Base Variable x
+         Function Call: bar
+            Function Call: foo
+               +
+                  3
+                  4
+            ||
+               >
+                  3
+                  2
+               Function Call: f
+                  Function Call: g
+                     3
+      Assign (lhs/rhs)
+         Base Variable x
+         +
+            *
+               Array Variable (base/index)
+                  Class Variable:
+                     Base Variable y
+                     z
+                  2
+               Function Call: foo
+            Function Call: bar
+               +
+                  Base Variable x
+                  2
+      Assign (lhs/rhs)
+         Base Variable z
+         Function Call: h
+            3
+            4
+            5
+            6
+            7
+            8
+            9
+            10
+      While (test/body)
+         >
+            Base Variable x
+            2
+         Assign (lhs/rhs)
+            Base Variable z
+            Function Call: foo
+               Base Variable x
+      Assign (lhs/rhs)
+         Base Variable w
+         ||
+            !
+               Base Variable x
+            Base Variable y
+      Assign (lhs/rhs)
+         Base Variable z
+         ||
+            >
+               -
+                  +
+                     -
+                        0
+                        1
+                     *
+                        /
+                           2
+                           3
+                        4
+                  5
+               6
+            !
+               >
+                  3
+                  4
+   }

@@ -1,0 +1,843 @@
+Parsing Successful
+Class: LabelRec
+   int Label
+   int ProgramIndex
+Prototype: void ExecuteProgram
+   int Memory[]
+   LabelRec Labels[]
+Prototype: void setlabels
+   int Memory[]
+   LabelRec Labels[]
+Prototype: int countLabels
+   int Memory[]
+Prototype: int ExecuteCommand
+   int Memory[]
+   int IP
+   int Registers[]
+   LabelRec Labels[]
+Prototype: int getLabelIndex
+   LabelRec Labels[]
+   int label
+Prototype: void LoadProgram
+   int Memory[]
+Prototype: void PrintProgram
+   int Memory[]
+Function Definition: main Return type: void
+   No formal parameters
+   {
+      int Memory[]
+         New Array of int[]
+            1000
+      int Labels
+      Function Call: LoadProgram
+         Base Variable Memory
+      Function Call: Println
+      Function Call: PrintProgram
+         Base Variable Memory
+      LabelRec Labels[]
+         New Array of LabelRec[]
+            Function Call: countLabels
+               Base Variable Memory
+      Function Call: setlabels
+         Base Variable Memory
+         Base Variable Labels
+      Function Call: ExecuteProgram
+         Base Variable Memory
+         Base Variable Labels
+   }
+Function Definition: ExecuteProgram Return type: void
+   Formals:
+      int Memory[]
+      LabelRec Labels[]
+   {
+      int Registers[]
+         New Array of int[]
+            9
+      int IP
+         0
+      Assign (lhs/rhs)
+         Array Variable (base/index)
+            Base Variable Registers
+            0
+         0
+      While (test/body)
+         TRUE
+         {
+            If (test/if body/else body)
+               ==
+                  Array Variable (base/index)
+                     Base Variable Memory
+                     Base Variable IP
+                  0
+               Return
+               No else statement
+            Assign (lhs/rhs)
+               Base Variable IP
+               Function Call: ExecuteCommand
+                  Base Variable Memory
+                  Base Variable IP
+                  Base Variable Registers
+                  Base Variable Labels
+         }
+   }
+Function Definition: countLabels Return type: int
+   Formals:
+      int Memory[]
+   {
+      int numLabels
+         0
+      int i
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         !=
+            Array Variable (base/index)
+               Base Variable Memory
+               Base Variable i
+            0
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         {
+            If (test/if body/else body)
+               ==
+                  /
+                     Array Variable (base/index)
+                        Base Variable Memory
+                        Base Variable i
+                     10000
+                  1
+               Assign (lhs/rhs)
+                  Base Variable numLabels
+                  +
+                     Base Variable numLabels
+                     1
+               No else statement
+         }
+      Return
+         Base Variable numLabels
+   }
+Function Definition: setlabels Return type: void
+   Formals:
+      int Program[]
+      LabelRec Labels[]
+   {
+      int currlabel
+         0
+      int i
+      LabelRec label
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         TRUE
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         {
+            If (test/if body/else body)
+               ==
+                  Array Variable (base/index)
+                     Base Variable Program
+                     Base Variable i
+                  0
+               Return
+               No else statement
+            If (test/if body/else body)
+               ==
+                  /
+                     Array Variable (base/index)
+                        Base Variable Program
+                        Base Variable i
+                     10000
+                  1
+               {
+                  Assign (lhs/rhs)
+                     Base Variable label
+                     New LabelRec
+                  Assign (lhs/rhs)
+                     Class Variable:
+                        Base Variable label
+                        ProgramIndex
+                     Base Variable i
+                  Assign (lhs/rhs)
+                     Class Variable:
+                        Base Variable label
+                        Label
+                     /
+                        -
+                           Array Variable (base/index)
+                              Base Variable Program
+                              Base Variable i
+                           10000
+                        10
+                  Assign (lhs/rhs)
+                     Array Variable (base/index)
+                        Base Variable Labels
+                        Base Variable currlabel
+                     Base Variable label
+                  Assign (lhs/rhs)
+                     Base Variable currlabel
+                     +
+                        Base Variable currlabel
+                        1
+               }
+               No else statement
+         }
+   }
+Function Definition: ExecuteCommand Return type: int
+   Formals:
+      int Memory[]
+      int IP
+      int Registers[]
+      LabelRec Labels[]
+   {
+      int command
+         Array Variable (base/index)
+            Base Variable Memory
+            Base Variable IP
+      int r1
+      int r2
+      int r3
+      int result
+      int i
+      If (test/if body/else body)
+         ==
+            /
+               Base Variable command
+               10000
+            1
+         {
+            Return
+               +
+                  Base Variable IP
+                  1
+         }
+         If (test/if body/else body)
+            ==
+               /
+                  Base Variable command
+                  10000
+               2
+            {
+               Assign (lhs/rhs)
+                  Base Variable command
+                  -
+                     Base Variable command
+                     20000
+               If (test/if body/else body)
+                  ==
+                     /
+                        Base Variable command
+                        1000
+                     1
+                  {
+                     Assign (lhs/rhs)
+                        Base Variable r1
+                        /
+                           -
+                              Base Variable command
+                              1000
+                           100
+                     If (test/if body/else body)
+                        &&
+                           >
+                              Base Variable r1
+                              0
+                           <
+                              Base Variable r1
+                              9
+                        {
+                           Assign (lhs/rhs)
+                              Array Variable (base/index)
+                                 Base Variable Registers
+                                 Base Variable r1
+                              Function Call: Read
+                        }
+                        {
+                           Function Call: Print
+                              99
+                           Function Call: Print
+                              Base Variable r1
+                           Function Call: Println
+                        }
+                  }
+                  {
+                     Assign (lhs/rhs)
+                        Base Variable r1
+                        /
+                           Base Variable command
+                           100
+                     If (test/if body/else body)
+                        &&
+                           >=
+                              Base Variable r1
+                              0
+                           <
+                              Base Variable r1
+                              9
+                        {
+                           Function Call: Print
+                              Array Variable (base/index)
+                                 Base Variable Registers
+                                 Base Variable r1
+                           Function Call: Println
+                        }
+                        No else statement
+                  }
+               Return
+                  +
+                     Base Variable IP
+                     1
+            }
+            If (test/if body/else body)
+               ==
+                  /
+                     Base Variable command
+                     10000
+                  3
+               {
+                  Assign (lhs/rhs)
+                     Base Variable command
+                     -
+                        Base Variable command
+                        30000
+                  Assign (lhs/rhs)
+                     Base Variable r1
+                     /
+                        Base Variable command
+                        1000
+                  If (test/if body/else body)
+                     &&
+                        >=
+                           Base Variable r1
+                           0
+                        <
+                           Base Variable r1
+                           9
+                     {
+                        If (test/if body/else body)
+                           ==
+                              Array Variable (base/index)
+                                 Base Variable Registers
+                                 Base Variable r1
+                              0
+                           Assign (lhs/rhs)
+                              Base Variable IP
+                              Function Call: getLabelIndex
+                                 Base Variable Labels
+                                 -
+                                    Base Variable command
+                                    *
+                                       Base Variable r1
+                                       1000
+                           Assign (lhs/rhs)
+                              Base Variable IP
+                              +
+                                 Base Variable IP
+                                 1
+                     }
+                     {
+                        Assign (lhs/rhs)
+                           Base Variable IP
+                           +
+                              Base Variable IP
+                              1
+                     }
+                  Return
+                     Base Variable IP
+               }
+               If (test/if body/else body)
+                  ==
+                     /
+                        Base Variable command
+                        10000
+                     4
+                  {
+                     Assign (lhs/rhs)
+                        Base Variable command
+                        -
+                           Base Variable command
+                           40000
+                     Assign (lhs/rhs)
+                        Base Variable r1
+                        /
+                           Base Variable command
+                           1000
+                     Assign (lhs/rhs)
+                        Base Variable command
+                        -
+                           Base Variable command
+                           *
+                              Base Variable r1
+                              1000
+                     Assign (lhs/rhs)
+                        Base Variable r2
+                        /
+                           Base Variable command
+                           100
+                     Assign (lhs/rhs)
+                        Base Variable command
+                        -
+                           Base Variable command
+                           *
+                              Base Variable r2
+                              100
+                     Assign (lhs/rhs)
+                        Base Variable r3
+                        /
+                           Base Variable command
+                           10
+                     If (test/if body/else body)
+                        &&
+                           >
+                              Base Variable r1
+                              0
+                           <
+                              Base Variable r1
+                              9
+                        If (test/if body/else body)
+                           &&
+                              &&
+                                 &&
+                                    >=
+                                       Base Variable r2
+                                       0
+                                    <
+                                       Base Variable r2
+                                       9
+                                 >=
+                                    Base Variable r3
+                                    0
+                              <
+                                 Base Variable r3
+                                 9
+                           If (test/if body/else body)
+                              <
+                                 Array Variable (base/index)
+                                    Base Variable Registers
+                                    Base Variable r2
+                                 Array Variable (base/index)
+                                    Base Variable Registers
+                                    Base Variable r3
+                              Assign (lhs/rhs)
+                                 Array Variable (base/index)
+                                    Base Variable Registers
+                                    Base Variable r1
+                                 1
+                              Assign (lhs/rhs)
+                                 Array Variable (base/index)
+                                    Base Variable Registers
+                                    Base Variable r1
+                                 0
+                           No else statement
+                        No else statement
+                     Return
+                        +
+                           Base Variable IP
+                           1
+                  }
+                  If (test/if body/else body)
+                     ==
+                        /
+                           Base Variable command
+                           10000
+                        5
+                     {
+                        Assign (lhs/rhs)
+                           Base Variable command
+                           -
+                              Base Variable command
+                              50000
+                        Assign (lhs/rhs)
+                           Base Variable r1
+                           /
+                              Base Variable command
+                              1000
+                        Assign (lhs/rhs)
+                           Base Variable command
+                           -
+                              Base Variable command
+                              *
+                                 Base Variable r1
+                                 1000
+                        Assign (lhs/rhs)
+                           Base Variable r2
+                           /
+                              Base Variable command
+                              100
+                        Assign (lhs/rhs)
+                           Base Variable command
+                           -
+                              Base Variable command
+                              *
+                                 Base Variable r2
+                                 100
+                        Assign (lhs/rhs)
+                           Base Variable r3
+                           /
+                              Base Variable command
+                              10
+                        If (test/if body/else body)
+                           &&
+                              &&
+                                 &&
+                                    &&
+                                       &&
+                                          >
+                                             Base Variable r1
+                                             0
+                                          <
+                                             Base Variable r1
+                                             9
+                                       >=
+                                          Base Variable r2
+                                          0
+                                    <
+                                       Base Variable r2
+                                       9
+                                 >=
+                                    Base Variable r3
+                                    0
+                              <
+                                 Base Variable r3
+                                 9
+                           {
+                              Assign (lhs/rhs)
+                                 Array Variable (base/index)
+                                    Base Variable Registers
+                                    Base Variable r1
+                                 +
+                                    Array Variable (base/index)
+                                       Base Variable Registers
+                                       Base Variable r2
+                                    Array Variable (base/index)
+                                       Base Variable Registers
+                                       Base Variable r3
+                           }
+                           No else statement
+                        Return
+                           +
+                              Base Variable IP
+                              1
+                     }
+                     If (test/if body/else body)
+                        ==
+                           /
+                              Base Variable command
+                              10000
+                           6
+                        {
+                           Assign (lhs/rhs)
+                              Base Variable command
+                              -
+                                 Base Variable command
+                                 60000
+                           Assign (lhs/rhs)
+                              Base Variable r1
+                              /
+                                 Base Variable command
+                                 1000
+                           Assign (lhs/rhs)
+                              Base Variable command
+                              -
+                                 Base Variable command
+                                 *
+                                    Base Variable r1
+                                    1000
+                           Assign (lhs/rhs)
+                              Base Variable r2
+                              /
+                                 Base Variable command
+                                 100
+                           Assign (lhs/rhs)
+                              Base Variable command
+                              -
+                                 Base Variable command
+                                 *
+                                    Base Variable r2
+                                    100
+                           Assign (lhs/rhs)
+                              Base Variable r3
+                              /
+                                 Base Variable command
+                                 10
+                           If (test/if body/else body)
+                              &&
+                                 &&
+                                    &&
+                                       &&
+                                          &&
+                                             >
+                                                Base Variable r1
+                                                0
+                                             <
+                                                Base Variable r1
+                                                9
+                                          >=
+                                             Base Variable r2
+                                             0
+                                       <
+                                          Base Variable r2
+                                          9
+                                    >=
+                                       Base Variable r3
+                                       0
+                                 <
+                                    Base Variable r3
+                                    9
+                              Assign (lhs/rhs)
+                                 Array Variable (base/index)
+                                    Base Variable Registers
+                                    Base Variable r1
+                                 -
+                                    Array Variable (base/index)
+                                       Base Variable Registers
+                                       Base Variable r2
+                                    Array Variable (base/index)
+                                       Base Variable Registers
+                                       Base Variable r3
+                              No else statement
+                           Return
+                              +
+                                 Base Variable IP
+                                 1
+                        }
+                        If (test/if body/else body)
+                           ==
+                              /
+                                 Base Variable command
+                                 10000
+                              7
+                           {
+                              Assign (lhs/rhs)
+                                 Base Variable result
+                                 -
+                                    Base Variable command
+                                    70000
+                              Assign (lhs/rhs)
+                                 Base Variable r1
+                                 Base Variable result
+                              Assign (lhs/rhs)
+                                 Base Variable r1
+                                 /
+                                    Base Variable r1
+                                    1000
+                              Assign (lhs/rhs)
+                                 Base Variable result
+                                 -
+                                    Base Variable result
+                                    *
+                                       Base Variable r1
+                                       1000
+                              If (test/if body/else body)
+                                 &&
+                                    >
+                                       Base Variable r1
+                                       0
+                                    <
+                                       Base Variable r1
+                                       9
+                                 Assign (lhs/rhs)
+                                    Array Variable (base/index)
+                                       Base Variable Registers
+                                       Base Variable r1
+                                    Array Variable (base/index)
+                                       Base Variable Memory
+                                       Base Variable result
+                                 No else statement
+                              Return
+                                 +
+                                    Base Variable IP
+                                    1
+                           }
+                           If (test/if body/else body)
+                              ==
+                                 /
+                                    Base Variable command
+                                    10000
+                                 8
+                              {
+                                 Assign (lhs/rhs)
+                                    Base Variable result
+                                    -
+                                       Base Variable command
+                                       80000
+                                 Assign (lhs/rhs)
+                                    Base Variable r1
+                                    Base Variable result
+                                 Assign (lhs/rhs)
+                                    Base Variable r1
+                                    /
+                                       Base Variable r1
+                                       1000
+                                 Assign (lhs/rhs)
+                                    Base Variable result
+                                    -
+                                       Base Variable result
+                                       *
+                                          Base Variable r1
+                                          1000
+                                 If (test/if body/else body)
+                                    &&
+                                       >
+                                          Base Variable r1
+                                          0
+                                       <
+                                          Base Variable r1
+                                          9
+                                    Assign (lhs/rhs)
+                                       Array Variable (base/index)
+                                          Base Variable Memory
+                                          Base Variable result
+                                       Array Variable (base/index)
+                                          Base Variable Registers
+                                          Base Variable r1
+                                    No else statement
+                                 Return
+                                    +
+                                       Base Variable IP
+                                       1
+                              }
+                              If (test/if body/else body)
+                                 ==
+                                    /
+                                       Base Variable command
+                                       10000
+                                    9
+                                 {
+                                    int result
+                                       -
+                                          Base Variable command
+                                          90000
+                                    int register
+                                       Base Variable result
+                                    Assign (lhs/rhs)
+                                       Base Variable register
+                                       /
+                                          Base Variable register
+                                          1000
+                                    Assign (lhs/rhs)
+                                       Base Variable result
+                                       -
+                                          Base Variable result
+                                          *
+                                             Base Variable register
+                                             1000
+                                    If (test/if body/else body)
+                                       &&
+                                          >
+                                             Base Variable register
+                                             0
+                                          <
+                                             Base Variable register
+                                             9
+                                       Assign (lhs/rhs)
+                                          Array Variable (base/index)
+                                             Base Variable Registers
+                                             Base Variable register
+                                          Base Variable result
+                                       No else statement
+                                    Return
+                                       +
+                                          Base Variable IP
+                                          1
+                                 }
+                                 No else statement
+   }
+Function Definition: getLabelIndex Return type: int
+   Formals:
+      LabelRec Labels[]
+      int label
+   {
+      int i
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         TRUE
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         {
+            If (test/if body/else body)
+               ==
+                  Class Variable:
+                     Array Variable (base/index)
+                        Base Variable Labels
+                        Base Variable i
+                     Label
+                  Base Variable label
+               Return
+                  Class Variable:
+                     Array Variable (base/index)
+                        Base Variable Labels
+                        Base Variable i
+                     ProgramIndex
+               No else statement
+         }
+   }
+Function Definition: PrintProgram Return type: void
+   Formals:
+      int Memory[]
+   {
+      int index
+         0
+      Do-while (test/body)
+         !=
+            Array Variable (base/index)
+               Base Variable Memory
+               -
+                  Base Variable index
+                  1
+            0
+         {
+            Function Call: Print
+               Array Variable (base/index)
+                  Base Variable Memory
+                  Base Variable index
+            Function Call: Println
+            Assign (lhs/rhs)
+               Base Variable index
+               +
+                  Base Variable index
+                  1
+         }
+      Empty Statement
+      Function Call: Println
+   }
+Function Definition: LoadProgram Return type: void
+   Formals:
+      int Memory[]
+   {
+      int index
+         0
+      Do-while (test/body)
+         !=
+            Array Variable (base/index)
+               Base Variable Memory
+               -
+                  Base Variable index
+                  1
+            0
+         {
+            Assign (lhs/rhs)
+               Array Variable (base/index)
+                  Base Variable Memory
+                  Base Variable index
+               Function Call: Read
+            Assign (lhs/rhs)
+               Base Variable index
+               +
+                  Base Variable index
+                  1
+         }
+      Empty Statement
+   }

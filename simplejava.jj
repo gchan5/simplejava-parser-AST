@@ -1,0 +1,127 @@
+//TEAM MEMBERS: GILBERT CHAN, JOSEPH PEREZ
+
+options {
+  IGNORE_CASE=false;
+}
+
+PARSER_BEGIN(simplejava)
+
+public class simplejava {
+}
+
+
+PARSER_END(simplejava)
+
+TOKEN_MGR_DECLS :
+{
+    public static int numcomments = 0;
+}
+
+SKIP :
+{
+    < "//" > : INLINE_COMMENT
+|   < " " >
+|   < "\n" >
+|   < "\t" >
+}
+
+SKIP :
+{
+< "/*" > {numcomments++;}: IN_MULTI_LINE_COMMENT
+}
+
+<IN_MULTI_LINE_COMMENT>
+SKIP :
+{
+    < " " >
+|   < "/*"> {numcomments++;}
+|   < "*/" > {numcomments--; if(numcomments == 0) SwitchTo(DEFAULT);}
+|   < ~[] >
+}
+
+<INLINE_COMMENT>
+SKIP :
+{
+    <"\n"> : DEFAULT
+|   < ~[] >
+}
+
+TOKEN :
+{
+    <INTEGER_LITERAL: (["0"-"9"])+>
+|   < DO: "do">
+|   < ELSE: "else">
+|   < FALSE: "false">
+|   < FOR: "for">
+|   < IF: "if">
+|   < TRUE: "true">
+|   < WHILE: "while">
+|   < RETURN: "return">
+|   < PLUS_EQUALS: "+=">
+|   < NOT_EQUALS: "!=">
+|   < EQUALS_EQUALS: "==">
+|   < LESS_THAN_EQUAL_TO: "<=">
+|   < GREATER_THAN_EQUAL_TO: ">=">
+|   < PLUS_PLUS: "++">
+|   < MINUS_MINUS: "--">
+|   < AND: "&&">
+|   < OR: "||">
+|   <IDENTIFIER: ["a"-"z", "A"-"Z"](["a"-"z", "A"-"Z","0"-"9", "_"])*>
+}
+
+TOKEN :
+{
+    < EQUALS: "=" >
+|   < PLUS: "+" >
+|   < MINUS: "-" >
+|   < ASTERISK: "*" >
+|   < SLASH: "/" >
+|   < LEFT_PARENTHESIS: "(">
+|   < RIGHT_PARENTHESIS: ")">
+|   < LEFT_BRACE: "{">
+|   < RIGHT_BRACE: "}">
+|   < LEFT_BRACKET: "[">
+|   < RIGHT_BRACKET: "]">
+|   < PERIOD: ".">
+|   < COMMA: ",">
+|   < SEMICOLON: ";">
+|   < LESS_THAN: "<">
+|   < GREATER_THAN: ">">
+|   < NOT: "!">
+}
+
+
+ASTProgram program():
+{ASTFunction main; ASTFunctionDefinitions f = new ASTFunctionDefinitions();}
+{
+    main = main_func() {f.addElement(main);}
+    {return new ASTProgram(new ASTClasses(), f, 0);}
+    <EOF>
+}
+
+ASTFunction main_func():
+{ASTFunction result; ASTStatement s;}
+{
+    ("void main") <LEFT_PARENTHESIS> <RIGHT_PARENTHESIS> <LEFT_BRACE> s = statements() <RIGHT_BRACE>
+        {return new ASTFunction("void", "main", new ASTFormals(), s, 0);}
+}
+
+ASTStatements statements():
+{ASTStatements s = new ASTStatements(); ASTStatement statement;}
+{
+    statement = variable_def() {s.addElement(statement);}
+    {return s;}
+}
+
+ASTVariableDefStatement variable_def():
+{Token type; Token name;}
+{
+    type = <IDENTIFIER> name = <IDENTIFIER> <SEMICOLON>
+        {return new ASTVariableDefStatement(type.image, name.image, 0);}
+}
+
+ASTAssignmentStatement assignment_statement():
+{Token type; Token name; ASTExpression e;}
+{
+    type = <IDENTIFIER> name = <IDENTIFIER> <EQUALS>
+}

@@ -1,0 +1,27 @@
+/* class declarations  */
+
+
+class foo {
+  int x;
+  int z[];
+}
+
+class bar {
+  foo x[][][];
+  boolean z;
+}
+
+class C {
+
+  bar y[][][][][][][][][][];
+  int x;
+  boolean z;
+  boolean w[][][];
+}
+
+void main() {
+   
+
+    C x = new C();
+   
+}

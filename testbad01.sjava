@@ -1,0 +1,9 @@
+void main() {
+
+    if (x > 3) x++;
+    if (x <= 3 && x > 0) x++; else x--;
+    while (x = 3)    /* = in statements, not expressions */
+    {
+       x++;
+    }
+}

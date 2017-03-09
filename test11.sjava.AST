@@ -1,0 +1,200 @@
+Parsing Successful
+Function Definition: divides Return type: boolean
+   Formals:
+      int x
+      int y
+   {
+      If (test/if body/else body)
+         ==
+            *
+               /
+                  Base Variable x
+                  Base Variable y
+               Base Variable y
+            Base Variable x
+         Return
+            TRUE
+         Return
+            FALSE
+   }
+Function Definition: sqrt Return type: int
+   Formals:
+      int x
+   {
+      int i
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            1
+         <
+            Base Variable i
+            Base Variable x
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         If (test/if body/else body)
+            >
+               *
+                  Base Variable i
+                  Base Variable i
+               Base Variable x
+            Return
+               -
+                  Base Variable i
+                  1
+            No else statement
+   }
+Function Definition: prime Return type: boolean
+   Formals:
+      int x
+   {
+      int i
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            2
+         <
+            Base Variable i
+            Base Variable x
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         If (test/if body/else body)
+            Function Call: divides
+               Base Variable x
+               Base Variable i
+            Return
+               FALSE
+            No else statement
+      Return
+         TRUE
+   }
+Function Definition: primes Return type: void
+   Formals:
+      int max
+   {
+      int i
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            2
+         <=
+            Base Variable i
+            Base Variable max
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         If (test/if body/else body)
+            Function Call: prime
+               Base Variable i
+            Function Call: Print
+               Base Variable i
+            No else statement
+      Function Call: Println
+   }
+Function Definition: primes2 Return type: void
+   Formals:
+      int max
+   {
+      int i
+      int j
+      boolean primes[]
+         New Array of boolean[]
+            +
+               Base Variable max
+               1
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            2
+         <=
+            Base Variable i
+            Base Variable max
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         Assign (lhs/rhs)
+            Array Variable (base/index)
+               Base Variable primes
+               Base Variable i
+            TRUE
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            2
+         <=
+            Base Variable i
+            Function Call: sqrt
+               +
+                  Base Variable max
+                  1
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         If (test/if body/else body)
+            Array Variable (base/index)
+               Base Variable primes
+               Base Variable i
+            {
+               For (initialize/test/increment/body)
+                  Assign (lhs/rhs)
+                     Base Variable j
+                     *
+                        Base Variable i
+                        2
+                  <=
+                     Base Variable j
+                     Base Variable max
+                  Assign (lhs/rhs)
+                     Base Variable j
+                     +
+                        Base Variable j
+                        Base Variable i
+                  Assign (lhs/rhs)
+                     Array Variable (base/index)
+                        Base Variable primes
+                        Base Variable j
+                     FALSE
+            }
+            No else statement
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            2
+         <=
+            Base Variable i
+            Base Variable max
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         If (test/if body/else body)
+            Array Variable (base/index)
+               Base Variable primes
+               Base Variable i
+            Function Call: Print
+               Base Variable i
+            No else statement
+      Function Call: Println
+   }
+Function Definition: main Return type: void
+   No formal parameters
+   {
+      int x
+         Function Call: Read
+      Function Call: primes
+         Base Variable x
+      Function Call: primes2
+         Base Variable x
+   }

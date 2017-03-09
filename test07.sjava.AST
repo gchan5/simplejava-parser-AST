@@ -1,0 +1,55 @@
+Parsing Successful
+Prototype: int foo
+   int x
+   int y
+Prototype: boolean foo2
+   int x
+   int y
+Function Definition: main Return type: void
+   No formal parameters
+   {
+      int x
+         +
+            Function Call: foo
+               3
+               4
+            Function Call: foo2
+               5
+               6
+      int z
+      Assign (lhs/rhs)
+         Base Variable z
+         Function Call: foo
+            Function Call: foo
+               3
+               Base Variable x
+            Function Call: foo2
+               Function Call: foo
+                  4
+                  5
+               Function Call: foo2
+                  7
+                  Function Call: foo
+                     5
+                     6
+   }
+Function Definition: foo Return type: int
+   Formals:
+      int x
+      int y
+   {
+      Return
+         Function Call: foo2
+            Base Variable x
+            Base Variable y
+   }
+Function Definition: foo2 Return type: int
+   Formals:
+      int x
+      int y
+   {
+      Return
+         +
+            Base Variable x
+            Base Variable y
+   }

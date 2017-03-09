@@ -1,0 +1,13 @@
+void main() {
+   
+   /* variable declarations & complex variables  */
+
+    int x;
+    int y = 3;
+    int z[][][][][];
+    int x[][] = new int[3][];
+
+    x = 3;
+    x[3][4].foo[8].bar[x.y][3].z.w.x[x.y.z] = y;
+   
+}

@@ -1,0 +1,22 @@
+/* testing functions II  */
+
+int foo(int x, int y);
+boolean foo2(int x, int y);
+
+
+void main() {
+   int x = foo(3,4)  + foo2(5,6);
+   int z;
+   z = foo(foo(3,x), foo2(foo(4,5),foo2(7,foo(5,6))));
+}
+
+int foo(int x, int y) {
+    return foo2(x,y);
+}
+
+int foo2(int x, int y)
+{
+	return x + y;
+}
+
+

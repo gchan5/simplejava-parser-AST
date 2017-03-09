@@ -1,0 +1,131 @@
+Parsing Successful
+Function Definition: main Return type: void
+   No formal parameters
+   {
+      If (test/if body/else body)
+         >
+            Base Variable x
+            3
+         Assign (lhs/rhs)
+            Base Variable x
+            +
+               Base Variable x
+               1
+         Assign (lhs/rhs)
+            Base Variable x
+            -
+               Base Variable x
+               1
+      If (test/if body/else body)
+         <
+            Base Variable z
+            2
+         Assign (lhs/rhs)
+            Base Variable x
+            +
+               Base Variable x
+               2
+         No else statement
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         <
+            Base Variable i
+            10
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         Assign (lhs/rhs)
+            Base Variable w
+            Base Variable z
+      While (test/body)
+         >
+            Base Variable x
+            3
+         {
+            While (test/body)
+               >
+                  Base Variable z
+                  2
+               While (test/body)
+                  >
+                     Base Variable x
+                     4
+                  For (initialize/test/increment/body)
+                     Assign (lhs/rhs)
+                        Base Variable x
+                        0
+                     <
+                        Base Variable x
+                        10
+                     Assign (lhs/rhs)
+                        Base Variable x
+                        +
+                           Base Variable x
+                           1
+                     Empty Statement
+         }
+      Do-while (test/body)
+         <
+            Base Variable x
+            10
+         Assign (lhs/rhs)
+            Base Variable x
+            +
+               Base Variable x
+               1
+      Empty Statement
+      If (test/if body/else body)
+         <
+            Base Variable x
+            3
+         If (test/if body/else body)
+            >
+               Base Variable y
+               2
+            If (test/if body/else body)
+               >=
+                  Base Variable z
+                  2
+               Assign (lhs/rhs)
+                  Base Variable x
+                  +
+                     Base Variable x
+                     1
+               Assign (lhs/rhs)
+                  Base Variable y
+                  -
+                     Base Variable y
+                     1
+            Assign (lhs/rhs)
+               Base Variable z
+               +
+                  Base Variable z
+                  1
+         Assign (lhs/rhs)
+            Base Variable w
+            +
+               Base Variable w
+               1
+      {
+         Assign (lhs/rhs)
+            Base Variable y
+            +
+               Base Variable y
+               1
+         Assign (lhs/rhs)
+            Base Variable z
+            -
+               Base Variable w
+               2
+      }
+      Function Call: foo
+         +
+            Base Variable x
+            Base Variable y
+         Base Variable z
+         4
+   }

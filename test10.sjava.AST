@@ -1,0 +1,229 @@
+Parsing Successful
+Prototype: void PrintBoard
+   int board[]
+   int size
+Prototype: int Abs
+   int x
+Prototype: boolean Legal
+   int numcols
+   int board[]
+Prototype: void Solve
+   int numcols
+   int board[]
+   int size
+Function Definition: main Return type: void
+   No formal parameters
+   {
+      int size
+      int board[]
+      Assign (lhs/rhs)
+         Base Variable size
+         Function Call: Read
+      Assign (lhs/rhs)
+         Base Variable board
+         New Array of int[]
+            Base Variable size
+      Function Call: Solve
+         1
+         Base Variable board
+         Base Variable size
+   }
+Function Definition: PrintBoard Return type: void
+   Formals:
+      int board[]
+      int size
+   {
+      int i
+      int j
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         <
+            Base Variable i
+            Base Variable size
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         {
+            For (initialize/test/increment/body)
+               Assign (lhs/rhs)
+                  Base Variable j
+                  0
+               <
+                  Base Variable j
+                  Array Variable (base/index)
+                     Base Variable board
+                     Base Variable i
+               Assign (lhs/rhs)
+                  Base Variable j
+                  +
+                     Base Variable j
+                     1
+               Function Call: Print
+                  0
+            Function Call: Print
+               1
+            For (initialize/test/increment/body)
+               Assign (lhs/rhs)
+                  Base Variable j
+                  +
+                     Array Variable (base/index)
+                        Base Variable board
+                        Base Variable i
+                     1
+               <
+                  Base Variable j
+                  Base Variable size
+               Assign (lhs/rhs)
+                  Base Variable j
+                  +
+                     Base Variable j
+                     1
+               Function Call: Print
+                  0
+            Function Call: Println
+         }
+      Function Call: Println
+   }
+Function Definition: Abs Return type: int
+   Formals:
+      int x
+   {
+      If (test/if body/else body)
+         >=
+            Base Variable x
+            0
+         Return
+            Base Variable x
+         Return
+            -
+               0
+               Base Variable x
+   }
+Function Definition: Legal Return type: boolean
+   Formals:
+      int numcols
+      int board[]
+   {
+      int i
+      int j
+      boolean legal
+      Assign (lhs/rhs)
+         Base Variable legal
+         TRUE
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         <
+            Base Variable i
+            Base Variable numcols
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         {
+            For (initialize/test/increment/body)
+               Assign (lhs/rhs)
+                  Base Variable j
+                  +
+                     Base Variable i
+                     1
+               <
+                  Base Variable j
+                  Base Variable numcols
+               Assign (lhs/rhs)
+                  Base Variable j
+                  +
+                     Base Variable j
+                     1
+               {
+                  If (test/if body/else body)
+                     ||
+                        ==
+                           Array Variable (base/index)
+                              Base Variable board
+                              Base Variable i
+                           Array Variable (base/index)
+                              Base Variable board
+                              Base Variable j
+                        ==
+                           Function Call: Abs
+                              -
+                                 Base Variable i
+                                 Base Variable j
+                           Function Call: Abs
+                              -
+                                 Array Variable (base/index)
+                                    Base Variable board
+                                    Base Variable i
+                                 Array Variable (base/index)
+                                    Base Variable board
+                                    Base Variable j
+                     {
+                        Assign (lhs/rhs)
+                           Base Variable legal
+                           FALSE
+                     }
+                     No else statement
+               }
+         }
+      Return
+         Base Variable legal
+   }
+Function Definition: Solve Return type: void
+   Formals:
+      int numcols
+      int board[]
+      int size
+   {
+      int i
+      If (test/if body/else body)
+         >
+            Base Variable numcols
+            Base Variable size
+         {
+            Function Call: PrintBoard
+               Base Variable board
+               Base Variable size
+            Function Call: Println
+         }
+         For (initialize/test/increment/body)
+            Assign (lhs/rhs)
+               Base Variable i
+               0
+            <
+               Base Variable i
+               Base Variable size
+            Assign (lhs/rhs)
+               Base Variable i
+               +
+                  Base Variable i
+                  1
+            {
+               Assign (lhs/rhs)
+                  Array Variable (base/index)
+                     Base Variable board
+                     -
+                        Base Variable numcols
+                        1
+                  Base Variable i
+               If (test/if body/else body)
+                  Function Call: Legal
+                     Base Variable numcols
+                     Base Variable board
+                  {
+                     Function Call: Solve
+                        +
+                           Base Variable numcols
+                           1
+                        Base Variable board
+                        Base Variable size
+                  }
+                  No else statement
+            }
+   }

@@ -1,0 +1,18 @@
+Parsing Successful
+Class: foo
+   int x
+   int z[]
+Class: bar
+   foo x[][][]
+   boolean z
+Class: C
+   bar y[][][][][][][][][][]
+   int x
+   boolean z
+   boolean w[][][]
+Function Definition: main Return type: void
+   No formal parameters
+   {
+      C x
+         New C
+   }

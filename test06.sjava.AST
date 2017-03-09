@@ -1,0 +1,70 @@
+Parsing Successful
+Prototype: int foo
+   int x
+   int y
+   boolean z
+   int w[]
+Prototype: void print2
+   int x
+   int y
+Function Definition: main Return type: void
+   No formal parameters
+   {
+      int x
+         New Array of int[]
+            10
+      Function Call: print2
+         Function Call: foo
+            3
+            4
+            TRUE
+            Base Variable x
+      Function Call: print2
+         Function Call: foo
+            8
+            Function Call: foo
+               +
+                  *
+                     4
+                     5
+                  6
+               Function Call: read
+               TRUE
+               Base Variable x
+            FALSE
+            Base Variable x
+         3
+   }
+Function Definition: foo Return type: int
+   Formals:
+      int x
+      int y
+      boolean z
+      int w[]
+   {
+      If (test/if body/else body)
+         Base Variable z
+         Return
+            +
+               Base Variable x
+               Base Variable y
+         Return
+            +
+               Array Variable (base/index)
+                  Base Variable w
+                  0
+               Array Variable (base/index)
+                  Base Variable w
+                  1
+   }
+Function Definition: print2 Return type: void
+   Formals:
+      int x
+      int y
+   {
+      Function Call: print
+         Base Variable x
+      Function Call: print
+         Base Variable y
+      Return
+   }

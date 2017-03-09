@@ -1,0 +1,3023 @@
+Parsing Successful
+Class: MinMax
+   int move
+   int value
+Prototype: void PrintBoard
+   int board[][]
+Prototype: int swap
+   int piece
+Prototype: void DoMove
+   int board[][]
+   int col
+   int piece
+Prototype: void UndoMove
+   int board[][]
+   int col
+Prototype: boolean win
+   int board[][]
+   int lastmove
+Prototype: void ClearBoard
+   int board[][]
+Prototype: boolean legal
+   int move
+   int board[][]
+Prototype: int GetBoard
+   int board[][]
+   int col
+   int row
+Prototype: int open1
+   int board[][]
+   int x
+   int y
+   int color
+Prototype: int half_open2
+   int board[][]
+   int x
+   int y
+   int color
+Prototype: int open2
+   int board[][]
+   int x
+   int y
+   int color
+Prototype: int half_open3
+   int board[][]
+   int x
+   int y
+   int color
+Prototype: int open3
+   int board[][]
+   int x
+   int y
+   int color
+Prototype: int four
+   int board[][]
+   int x
+   int y
+   int color
+Prototype: int value
+   int board[][]
+Prototype: int GetComputerMove
+   int board[][]
+Prototype: void min
+   int board[][]
+   int level
+   MinMax result
+Prototype: void max
+   int board[][]
+   int level
+   MinMax result
+Function Definition: main Return type: void
+   No formal parameters
+   {
+      int board[][]
+      int i
+      boolean done
+         FALSE
+      int player
+         1
+      int move
+      int numMoves
+         0
+      int winner
+         0
+      MinMax result
+         New MinMax
+      Assign (lhs/rhs)
+         Base Variable board
+         New Array of int[][]
+            10
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         <
+            Base Variable i
+            10
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         Assign (lhs/rhs)
+            Array Variable (base/index)
+               Base Variable board
+               Base Variable i
+            New Array of int[]
+               10
+      Function Call: ClearBoard
+         Base Variable board
+      Function Call: PrintBoard
+         Base Variable board
+      While (test/body)
+         !
+            Base Variable done
+         {
+            If (test/if body/else body)
+               ==
+                  Base Variable player
+                  1
+               {
+                  Function Call: Println
+                  Do-while (test/body)
+                     !
+                        Function Call: legal
+                           Base Variable move
+                           Base Variable board
+                     {
+                        Assign (lhs/rhs)
+                           Base Variable move
+                           Function Call: Read
+                     }
+                  Empty Statement
+               }
+               {
+                  Function Call: min
+                     Base Variable board
+                     2
+                     Base Variable result
+                  Assign (lhs/rhs)
+                     Base Variable move
+                     Class Variable:
+                        Base Variable result
+                        move
+               }
+            Function Call: DoMove
+               Base Variable board
+               Base Variable move
+               Base Variable player
+            Function Call: PrintBoard
+               Base Variable board
+            Assign (lhs/rhs)
+               Base Variable numMoves
+               +
+                  Base Variable numMoves
+                  1
+            If (test/if body/else body)
+               Function Call: win
+                  Base Variable board
+                  Base Variable move
+               {
+                  Assign (lhs/rhs)
+                     Base Variable done
+                     TRUE
+                  Assign (lhs/rhs)
+                     Base Variable winner
+                     Base Variable player
+               }
+               No else statement
+            If (test/if body/else body)
+               ==
+                  Base Variable numMoves
+                  100
+               {
+                  Assign (lhs/rhs)
+                     Base Variable done
+                     TRUE
+                  Assign (lhs/rhs)
+                     Base Variable winner
+                     0
+               }
+               No else statement
+            Assign (lhs/rhs)
+               Base Variable player
+               Function Call: swap
+                  Base Variable player
+         }
+      Function Call: Println
+      Function Call: Println
+      Function Call: Print
+         Base Variable winner
+      Function Call: Println
+   }
+Function Definition: value Return type: int
+   Formals:
+      int board[][]
+   {
+      int i
+      int j
+      int open1_1
+         0
+      int open1_2
+         0
+      int half_open2_1
+         0
+      int half_open2_2
+         0
+      int open2_1
+         0
+      int open2_2
+         0
+      int half_open3_1
+         0
+      int half_open3_2
+         0
+      int open3_1
+         0
+      int open3_2
+         0
+      int four_1
+         0
+      int four_2
+         0
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         <
+            Base Variable i
+            10
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         For (initialize/test/increment/body)
+            Assign (lhs/rhs)
+               Base Variable j
+               0
+            <
+               Base Variable j
+               10
+            Assign (lhs/rhs)
+               Base Variable j
+               +
+                  Base Variable j
+                  1
+            {
+               Assign (lhs/rhs)
+                  Base Variable open1_1
+                  +
+                     Base Variable open1_1
+                     Function Call: open1
+                        Base Variable board
+                        Base Variable i
+                        Base Variable j
+                        1
+               Assign (lhs/rhs)
+                  Base Variable open1_2
+                  +
+                     Base Variable open1_2
+                     Function Call: open1
+                        Base Variable board
+                        Base Variable i
+                        Base Variable j
+                        2
+               Assign (lhs/rhs)
+                  Base Variable half_open2_1
+                  +
+                     Base Variable half_open2_1
+                     Function Call: half_open2
+                        Base Variable board
+                        Base Variable i
+                        Base Variable j
+                        1
+               Assign (lhs/rhs)
+                  Base Variable half_open2_2
+                  +
+                     Base Variable half_open2_2
+                     Function Call: half_open2
+                        Base Variable board
+                        Base Variable i
+                        Base Variable j
+                        2
+               Assign (lhs/rhs)
+                  Base Variable open2_1
+                  +
+                     Base Variable open2_1
+                     Function Call: open2
+                        Base Variable board
+                        Base Variable i
+                        Base Variable j
+                        1
+               Assign (lhs/rhs)
+                  Base Variable open2_2
+                  +
+                     Base Variable open2_2
+                     Function Call: open2
+                        Base Variable board
+                        Base Variable i
+                        Base Variable j
+                        2
+               Assign (lhs/rhs)
+                  Base Variable half_open3_1
+                  +
+                     Base Variable half_open3_1
+                     Function Call: half_open3
+                        Base Variable board
+                        Base Variable i
+                        Base Variable j
+                        1
+               Assign (lhs/rhs)
+                  Base Variable half_open3_2
+                  +
+                     Base Variable half_open3_2
+                     Function Call: half_open3
+                        Base Variable board
+                        Base Variable i
+                        Base Variable j
+                        2
+               Assign (lhs/rhs)
+                  Base Variable open3_1
+                  +
+                     Base Variable open3_1
+                     Function Call: open3
+                        Base Variable board
+                        Base Variable i
+                        Base Variable j
+                        1
+               Assign (lhs/rhs)
+                  Base Variable open3_2
+                  +
+                     Base Variable open3_2
+                     Function Call: open3
+                        Base Variable board
+                        Base Variable i
+                        Base Variable j
+                        2
+               Assign (lhs/rhs)
+                  Base Variable four_1
+                  +
+                     Base Variable four_1
+                     Function Call: four
+                        Base Variable board
+                        Base Variable i
+                        Base Variable j
+                        1
+               Assign (lhs/rhs)
+                  Base Variable four_2
+                  +
+                     Base Variable four_2
+                     Function Call: four
+                        Base Variable board
+                        Base Variable i
+                        Base Variable j
+                        2
+            }
+      Return
+         -
+            +
+               +
+                  +
+                     +
+                        +
+                           Base Variable open1_1
+                           *
+                              Base Variable half_open2_1
+                              3
+                        *
+                           Base Variable open2_1
+                           9
+                     *
+                        Base Variable half_open3_1
+                        20
+                  *
+                     Base Variable open3_1
+                     500
+               *
+                  Base Variable four_1
+                  3000
+            +
+               +
+                  +
+                     +
+                        +
+                           Base Variable open1_2
+                           *
+                              Base Variable half_open2_2
+                              3
+                        *
+                           Base Variable open2_2
+                           9
+                     *
+                        Base Variable half_open3_2
+                        20
+                  *
+                     Base Variable open3_2
+                     500
+               *
+                  Base Variable four_2
+                  3000
+   }
+Function Definition: legal Return type: boolean
+   Formals:
+      int move
+      int board[][]
+   {
+      If (test/if body/else body)
+         ||
+            <
+               Base Variable move
+               0
+            >
+               Base Variable move
+               9
+         Return
+            FALSE
+         No else statement
+      If (test/if body/else body)
+         !=
+            Array Variable (base/index)
+               Array Variable (base/index)
+                  Base Variable board
+                  0
+               Base Variable move
+            0
+         Return
+            FALSE
+         No else statement
+      Return
+         TRUE
+   }
+Function Definition: ClearBoard Return type: void
+   Formals:
+      int board[][]
+   {
+      int i
+      int j
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         <
+            Base Variable i
+            10
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         For (initialize/test/increment/body)
+            Assign (lhs/rhs)
+               Base Variable j
+               0
+            <
+               Base Variable j
+               10
+            Assign (lhs/rhs)
+               Base Variable j
+               +
+                  Base Variable j
+                  1
+            Assign (lhs/rhs)
+               Array Variable (base/index)
+                  Array Variable (base/index)
+                     Base Variable board
+                     Base Variable i
+                  Base Variable j
+               0
+   }
+Function Definition: PrintBoard Return type: void
+   Formals:
+      int board[][]
+   {
+      int i
+      int j
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         <
+            Base Variable i
+            10
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         {
+            For (initialize/test/increment/body)
+               Assign (lhs/rhs)
+                  Base Variable j
+                  0
+               <
+                  Base Variable j
+                  10
+               Assign (lhs/rhs)
+                  Base Variable j
+                  +
+                     Base Variable j
+                     1
+               Function Call: Print
+                  Array Variable (base/index)
+                     Array Variable (base/index)
+                        Base Variable board
+                        Base Variable i
+                     Base Variable j
+            Function Call: Println
+         }
+      Function Call: Println
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         <
+            Base Variable i
+            10
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         Function Call: Print
+            Base Variable i
+      Function Call: Println
+      Function Call: Println
+   }
+Function Definition: swap Return type: int
+   Formals:
+      int piece
+   {
+      If (test/if body/else body)
+         ==
+            Base Variable piece
+            1
+         Return
+            2
+         Return
+            1
+   }
+Function Definition: DoMove Return type: void
+   Formals:
+      int board[][]
+      int col
+      int piece
+   {
+      int i
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            1
+         <
+            Base Variable i
+            10
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         {
+            If (test/if body/else body)
+               !=
+                  Array Variable (base/index)
+                     Array Variable (base/index)
+                        Base Variable board
+                        Base Variable i
+                     Base Variable col
+                  0
+               {
+                  Assign (lhs/rhs)
+                     Array Variable (base/index)
+                        Array Variable (base/index)
+                           Base Variable board
+                           -
+                              Base Variable i
+                              1
+                        Base Variable col
+                     Base Variable piece
+                  Return
+               }
+               No else statement
+         }
+      Assign (lhs/rhs)
+         Array Variable (base/index)
+            Array Variable (base/index)
+               Base Variable board
+               9
+            Base Variable col
+         Base Variable piece
+   }
+Function Definition: UndoMove Return type: void
+   Formals:
+      int board[][]
+      int col
+   {
+      int i
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         <
+            Base Variable i
+            10
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         {
+            If (test/if body/else body)
+               !=
+                  Array Variable (base/index)
+                     Array Variable (base/index)
+                        Base Variable board
+                        Base Variable i
+                     Base Variable col
+                  0
+               {
+                  Assign (lhs/rhs)
+                     Array Variable (base/index)
+                        Array Variable (base/index)
+                           Base Variable board
+                           Base Variable i
+                        Base Variable col
+                     0
+                  Return
+               }
+               No else statement
+         }
+   }
+Function Definition: win Return type: boolean
+   Formals:
+      int board[][]
+      int movecol
+   {
+      int moverow
+      int length
+      int color
+      int delta
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable moverow
+            0
+         &&
+            <
+               Base Variable moverow
+               10
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  Base Variable moverow
+                  Base Variable movecol
+               0
+         Assign (lhs/rhs)
+            Base Variable moverow
+            +
+               Base Variable moverow
+               1
+         Empty Statement
+      If (test/if body/else body)
+         ==
+            Function Call: GetBoard
+               Base Variable board
+               Base Variable moverow
+               Base Variable movecol
+            0
+         Return
+            FALSE
+         No else statement
+      Assign (lhs/rhs)
+         Base Variable color
+         Array Variable (base/index)
+            Array Variable (base/index)
+               Base Variable board
+               Base Variable moverow
+            Base Variable movecol
+      Assign (lhs/rhs)
+         Base Variable length
+         0
+      Assign (lhs/rhs)
+         Base Variable delta
+         0
+      While (test/body)
+         ==
+            Function Call: GetBoard
+               Base Variable board
+               +
+                  Base Variable moverow
+                  Base Variable delta
+               Base Variable movecol
+            Base Variable color
+         {
+            Assign (lhs/rhs)
+               Base Variable length
+               +
+                  Base Variable length
+                  1
+            Assign (lhs/rhs)
+               Base Variable delta
+               +
+                  Base Variable delta
+                  1
+         }
+      If (test/if body/else body)
+         >=
+            Base Variable length
+            4
+         Return
+            TRUE
+         No else statement
+      Assign (lhs/rhs)
+         Base Variable length
+         0
+      Assign (lhs/rhs)
+         Base Variable delta
+         0
+      While (test/body)
+         ==
+            Function Call: GetBoard
+               Base Variable board
+               Base Variable moverow
+               +
+                  Base Variable movecol
+                  Base Variable delta
+            Base Variable color
+         {
+            Assign (lhs/rhs)
+               Base Variable length
+               +
+                  Base Variable length
+                  1
+            Assign (lhs/rhs)
+               Base Variable delta
+               +
+                  Base Variable delta
+                  1
+         }
+      Assign (lhs/rhs)
+         Base Variable delta
+         1
+      While (test/body)
+         ==
+            Function Call: GetBoard
+               Base Variable board
+               Base Variable moverow
+               -
+                  Base Variable movecol
+                  Base Variable delta
+            Base Variable color
+         {
+            Assign (lhs/rhs)
+               Base Variable length
+               +
+                  Base Variable length
+                  1
+            Assign (lhs/rhs)
+               Base Variable delta
+               +
+                  Base Variable delta
+                  1
+         }
+      If (test/if body/else body)
+         >=
+            Base Variable length
+            4
+         Return
+            TRUE
+         No else statement
+      Assign (lhs/rhs)
+         Base Variable delta
+         0
+      Assign (lhs/rhs)
+         Base Variable length
+         0
+      While (test/body)
+         ==
+            Function Call: GetBoard
+               Base Variable board
+               +
+                  Base Variable moverow
+                  Base Variable delta
+               +
+                  Base Variable movecol
+                  Base Variable delta
+            Base Variable color
+         {
+            Assign (lhs/rhs)
+               Base Variable length
+               +
+                  Base Variable length
+                  1
+            Assign (lhs/rhs)
+               Base Variable delta
+               +
+                  Base Variable delta
+                  1
+         }
+      Assign (lhs/rhs)
+         Base Variable delta
+         1
+      While (test/body)
+         ==
+            Function Call: GetBoard
+               Base Variable board
+               -
+                  Base Variable moverow
+                  Base Variable delta
+               -
+                  Base Variable movecol
+                  Base Variable delta
+            Base Variable color
+         {
+            Assign (lhs/rhs)
+               Base Variable length
+               +
+                  Base Variable length
+                  1
+            Assign (lhs/rhs)
+               Base Variable delta
+               +
+                  Base Variable delta
+                  1
+         }
+      If (test/if body/else body)
+         >=
+            Base Variable length
+            4
+         Return
+            TRUE
+         No else statement
+      Assign (lhs/rhs)
+         Base Variable delta
+         0
+      Assign (lhs/rhs)
+         Base Variable length
+         0
+      While (test/body)
+         ==
+            Function Call: GetBoard
+               Base Variable board
+               +
+                  Base Variable moverow
+                  Base Variable delta
+               -
+                  Base Variable movecol
+                  Base Variable delta
+            Base Variable color
+         {
+            Assign (lhs/rhs)
+               Base Variable length
+               +
+                  Base Variable length
+                  1
+            Assign (lhs/rhs)
+               Base Variable delta
+               +
+                  Base Variable delta
+                  1
+         }
+      Assign (lhs/rhs)
+         Base Variable delta
+         1
+      While (test/body)
+         ==
+            Function Call: GetBoard
+               Base Variable board
+               -
+                  Base Variable moverow
+                  Base Variable delta
+               +
+                  Base Variable movecol
+                  Base Variable delta
+            Base Variable color
+         {
+            Assign (lhs/rhs)
+               Base Variable length
+               +
+                  Base Variable length
+                  1
+            Assign (lhs/rhs)
+               Base Variable delta
+               +
+                  Base Variable delta
+                  1
+         }
+      If (test/if body/else body)
+         >=
+            Base Variable length
+            4
+         Return
+            TRUE
+         No else statement
+      Return
+         FALSE
+   }
+Function Definition: GetBoard Return type: int
+   Formals:
+      int board[][]
+      int col
+      int row
+   {
+      If (test/if body/else body)
+         ||
+            ||
+               ||
+                  <
+                     Base Variable col
+                     0
+                  >
+                     Base Variable col
+                     9
+               <
+                  Base Variable row
+                  0
+            >
+               Base Variable row
+               9
+         Return
+            3
+         No else statement
+      Return
+         Array Variable (base/index)
+            Array Variable (base/index)
+               Base Variable board
+               Base Variable col
+            Base Variable row
+   }
+Function Definition: open1 Return type: int
+   Formals:
+      int board[][]
+      int x
+      int y
+      int color
+   {
+      int total
+         0
+      If (test/if body/else body)
+         ==
+            Array Variable (base/index)
+               Array Variable (base/index)
+                  Base Variable board
+                  Base Variable x
+               Base Variable y
+            0
+         Return
+            0
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     Base Variable y
+                  Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     -
+                        Base Variable x
+                        1
+                     Base Variable y
+                  0
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     1
+                  Base Variable y
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     Base Variable y
+                  Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     -
+                        Base Variable y
+                        1
+                  0
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  Base Variable x
+                  +
+                     Base Variable y
+                     1
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     Base Variable y
+                  Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     -
+                        Base Variable x
+                        1
+                     -
+                        Base Variable y
+                        1
+                  0
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     1
+                  +
+                     Base Variable y
+                     1
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     Base Variable y
+                  Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     -
+                        Base Variable x
+                        1
+                     +
+                        Base Variable y
+                        1
+                  0
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     1
+                  -
+                     Base Variable y
+                     1
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      Return
+         Base Variable total
+   }
+Function Definition: half_open2 Return type: int
+   Formals:
+      int board[][]
+      int x
+      int y
+      int color
+   {
+      int total
+         0
+      If (test/if body/else body)
+         ==
+            Array Variable (base/index)
+               Array Variable (base/index)
+                  Base Variable board
+                  Base Variable x
+               Base Variable y
+            0
+         Return
+            0
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ||
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           -
+                              Base Variable x
+                              1
+                           Base Variable y
+                        Function Call: swap
+                           Base Variable color
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           -
+                              Base Variable x
+                              1
+                           Base Variable y
+                        3
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        1
+                     Base Variable y
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     2
+                  Base Variable y
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ||
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           -
+                              Base Variable y
+                              1
+                        Function Call: swap
+                           Base Variable color
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           -
+                              Base Variable y
+                              1
+                        3
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     +
+                        Base Variable y
+                        1
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  Base Variable x
+                  +
+                     Base Variable y
+                     2
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ||
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           -
+                              Base Variable x
+                              1
+                           -
+                              Base Variable y
+                              1
+                        Function Call: swap
+                           Base Variable color
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           -
+                              Base Variable x
+                              1
+                           -
+                              Base Variable y
+                              1
+                        3
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        1
+                     +
+                        Base Variable y
+                        1
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     2
+                  +
+                     Base Variable y
+                     2
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ||
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           -
+                              Base Variable x
+                              1
+                           +
+                              Base Variable y
+                              1
+                        Function Call: swap
+                           Base Variable color
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           -
+                              Base Variable x
+                              1
+                           +
+                              Base Variable y
+                              1
+                        3
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        1
+                     -
+                        Base Variable y
+                        1
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     2
+                  -
+                     Base Variable y
+                     2
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        -
+                           Base Variable x
+                           1
+                        Base Variable y
+                     0
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        1
+                     Base Variable y
+                  Base Variable color
+            ||
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     Base Variable y
+                  Function Call: swap
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     Base Variable y
+                  3
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        -
+                           Base Variable y
+                           1
+                     0
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     +
+                        Base Variable y
+                        1
+                  Base Variable color
+            ||
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     +
+                        Base Variable y
+                        2
+                  Function Call: swap
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     +
+                        Base Variable y
+                        2
+                  3
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        -
+                           Base Variable x
+                           1
+                        -
+                           Base Variable y
+                           1
+                     0
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        1
+                     +
+                        Base Variable y
+                        1
+                  Base Variable color
+            ||
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     +
+                        Base Variable y
+                        2
+                  Function Call: swap
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     +
+                        Base Variable y
+                        2
+                  3
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        -
+                           Base Variable x
+                           1
+                        +
+                           Base Variable y
+                           1
+                     0
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        1
+                     -
+                        Base Variable y
+                        1
+                  Base Variable color
+            ||
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     -
+                        Base Variable y
+                        2
+                  Function Call: swap
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     -
+                        Base Variable y
+                        2
+                  3
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      Return
+         Base Variable total
+   }
+Function Definition: open2 Return type: int
+   Formals:
+      int board[][]
+      int x
+      int y
+      int color
+   {
+      int total
+         0
+      If (test/if body/else body)
+         ==
+            Array Variable (base/index)
+               Array Variable (base/index)
+                  Base Variable board
+                  Base Variable x
+               Base Variable y
+            0
+         Return
+            0
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        -
+                           Base Variable x
+                           1
+                        Base Variable y
+                     0
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        1
+                     Base Variable y
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     2
+                  Base Variable y
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        -
+                           Base Variable y
+                           1
+                     0
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     +
+                        Base Variable y
+                        1
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  Base Variable x
+                  +
+                     Base Variable y
+                     2
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        -
+                           Base Variable x
+                           1
+                        -
+                           Base Variable y
+                           1
+                     0
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        1
+                     +
+                        Base Variable y
+                        1
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     2
+                  +
+                     Base Variable y
+                     2
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        -
+                           Base Variable x
+                           1
+                        +
+                           Base Variable y
+                           1
+                     0
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        1
+                     -
+                        Base Variable y
+                        1
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     2
+                  -
+                     Base Variable y
+                     2
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      Return
+         Base Variable total
+   }
+Function Definition: half_open3 Return type: int
+   Formals:
+      int board[][]
+      int x
+      int y
+      int color
+   {
+      int total
+         0
+      If (test/if body/else body)
+         ==
+            Array Variable (base/index)
+               Array Variable (base/index)
+                  Base Variable board
+                  Base Variable x
+               Base Variable y
+            0
+         Return
+            0
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  &&
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           Base Variable y
+                        Base Variable color
+                     ||
+                        ==
+                           Function Call: GetBoard
+                              Base Variable board
+                              -
+                                 Base Variable x
+                                 1
+                              Base Variable y
+                           Function Call: swap
+                              Base Variable color
+                        ==
+                           Function Call: GetBoard
+                              Base Variable board
+                              -
+                                 Base Variable x
+                                 1
+                              Base Variable y
+                           3
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        +
+                           Base Variable x
+                           1
+                        Base Variable y
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     Base Variable y
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     3
+                  Base Variable y
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  &&
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           Base Variable y
+                        Base Variable color
+                     ||
+                        ==
+                           Function Call: GetBoard
+                              Base Variable board
+                              Base Variable x
+                              -
+                                 Base Variable y
+                                 1
+                           Function Call: swap
+                              Base Variable color
+                        ==
+                           Function Call: GetBoard
+                              Base Variable board
+                              Base Variable x
+                              -
+                                 Base Variable y
+                                 1
+                           3
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        +
+                           Base Variable y
+                           1
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     +
+                        Base Variable y
+                        2
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  Base Variable x
+                  +
+                     Base Variable y
+                     3
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  &&
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           Base Variable y
+                        Base Variable color
+                     ||
+                        ==
+                           Function Call: GetBoard
+                              Base Variable board
+                              -
+                                 Base Variable x
+                                 1
+                              -
+                                 Base Variable y
+                                 1
+                           Function Call: swap
+                              Base Variable color
+                        ==
+                           Function Call: GetBoard
+                              Base Variable board
+                              -
+                                 Base Variable x
+                                 1
+                              -
+                                 Base Variable y
+                                 1
+                           3
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        +
+                           Base Variable x
+                           1
+                        +
+                           Base Variable y
+                           1
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     +
+                        Base Variable y
+                        2
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     3
+                  +
+                     Base Variable y
+                     3
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  &&
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           Base Variable y
+                        Base Variable color
+                     ||
+                        ==
+                           Function Call: GetBoard
+                              Base Variable board
+                              -
+                                 Base Variable x
+                                 1
+                              +
+                                 Base Variable y
+                                 1
+                           Function Call: swap
+                              Base Variable color
+                        ==
+                           Function Call: GetBoard
+                              Base Variable board
+                              -
+                                 Base Variable x
+                                 1
+                              +
+                                 Base Variable y
+                                 1
+                           3
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        +
+                           Base Variable x
+                           1
+                        -
+                           Base Variable y
+                           1
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     -
+                        Base Variable y
+                        2
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     3
+                  -
+                     Base Variable y
+                     3
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  &&
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           Base Variable y
+                        Base Variable color
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           -
+                              Base Variable x
+                              1
+                           Base Variable y
+                        0
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        +
+                           Base Variable x
+                           1
+                        Base Variable y
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     Base Variable y
+                  Base Variable color
+            ||
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        3
+                     Base Variable y
+                  Function Call: swap
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        3
+                     Base Variable y
+                  3
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  &&
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           Base Variable y
+                        Base Variable color
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           -
+                              Base Variable y
+                              1
+                        0
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        +
+                           Base Variable y
+                           1
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     +
+                        Base Variable y
+                        2
+                  Base Variable color
+            ||
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     +
+                        Base Variable y
+                        3
+                  Function Call: swap
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     +
+                        Base Variable y
+                        3
+                  3
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  &&
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           Base Variable y
+                        Base Variable color
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           -
+                              Base Variable x
+                              1
+                           -
+                              Base Variable y
+                              1
+                        0
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        +
+                           Base Variable x
+                           1
+                        +
+                           Base Variable y
+                           1
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     +
+                        Base Variable y
+                        2
+                  Base Variable color
+            ||
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        3
+                     +
+                        Base Variable y
+                        3
+                  Function Call: swap
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        3
+                     +
+                        Base Variable y
+                        3
+                  3
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  &&
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           Base Variable y
+                        Base Variable color
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           -
+                              Base Variable x
+                              1
+                           +
+                              Base Variable y
+                              1
+                        0
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        +
+                           Base Variable x
+                           1
+                        -
+                           Base Variable y
+                           1
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     -
+                        Base Variable y
+                        2
+                  Base Variable color
+            ||
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        3
+                     -
+                        Base Variable y
+                        3
+                  Function Call: swap
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        3
+                     -
+                        Base Variable y
+                        3
+                  3
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      Return
+         Base Variable total
+   }
+Function Definition: open3 Return type: int
+   Formals:
+      int board[][]
+      int x
+      int y
+      int color
+   {
+      int total
+         0
+      If (test/if body/else body)
+         ==
+            Array Variable (base/index)
+               Array Variable (base/index)
+                  Base Variable board
+                  Base Variable x
+               Base Variable y
+            0
+         Return
+            0
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  &&
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           Base Variable y
+                        Base Variable color
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           -
+                              Base Variable x
+                              1
+                           Base Variable y
+                        0
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        +
+                           Base Variable x
+                           1
+                        Base Variable y
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     Base Variable y
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     3
+                  Base Variable y
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  &&
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           Base Variable y
+                        Base Variable color
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           -
+                              Base Variable y
+                              1
+                        0
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        +
+                           Base Variable y
+                           1
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     +
+                        Base Variable y
+                        2
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  Base Variable x
+                  +
+                     Base Variable y
+                     3
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  &&
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           Base Variable y
+                        Base Variable color
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           -
+                              Base Variable x
+                              1
+                           -
+                              Base Variable y
+                              1
+                        0
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        +
+                           Base Variable x
+                           1
+                        +
+                           Base Variable y
+                           1
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     +
+                        Base Variable y
+                        2
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     3
+                  +
+                     Base Variable y
+                     3
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  &&
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           Base Variable x
+                           Base Variable y
+                        Base Variable color
+                     ==
+                        Function Call: GetBoard
+                           Base Variable board
+                           -
+                              Base Variable x
+                              1
+                           +
+                              Base Variable y
+                              1
+                        0
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        +
+                           Base Variable x
+                           1
+                        -
+                           Base Variable y
+                           1
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     -
+                        Base Variable y
+                        2
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     3
+                  -
+                     Base Variable y
+                     3
+               0
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      Return
+         Base Variable total
+   }
+Function Definition: four Return type: int
+   Formals:
+      int board[][]
+      int x
+      int y
+      int color
+   {
+      int total
+         0
+      If (test/if body/else body)
+         ==
+            Array Variable (base/index)
+               Array Variable (base/index)
+                  Base Variable board
+                  Base Variable x
+               Base Variable y
+            0
+         Return
+            0
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        +
+                           Base Variable x
+                           1
+                        Base Variable y
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     Base Variable y
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     3
+                  Base Variable y
+               Base Variable color
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        +
+                           Base Variable y
+                           1
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     Base Variable x
+                     +
+                        Base Variable y
+                        2
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  Base Variable x
+                  +
+                     Base Variable y
+                     3
+               Base Variable color
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        +
+                           Base Variable x
+                           1
+                        +
+                           Base Variable y
+                           1
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        2
+                     +
+                        Base Variable y
+                        2
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     3
+                  +
+                     Base Variable y
+                     3
+               Base Variable color
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      If (test/if body/else body)
+         &&
+            &&
+               &&
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        Base Variable x
+                        Base Variable y
+                     Base Variable color
+                  ==
+                     Function Call: GetBoard
+                        Base Variable board
+                        +
+                           Base Variable x
+                           2
+                        -
+                           Base Variable y
+                           2
+                     Base Variable color
+               ==
+                  Function Call: GetBoard
+                     Base Variable board
+                     +
+                        Base Variable x
+                        3
+                     -
+                        Base Variable y
+                        3
+                  Base Variable color
+            ==
+               Function Call: GetBoard
+                  Base Variable board
+                  +
+                     Base Variable x
+                     4
+                  -
+                     Base Variable y
+                     4
+               Base Variable color
+         Assign (lhs/rhs)
+            Base Variable total
+            +
+               Base Variable total
+               1
+         No else statement
+      Return
+         Base Variable total
+   }
+Function Definition: GetComputerMove Return type: int
+   Formals:
+      int board[][]
+   {
+      int best_value
+      int best_move
+      int i
+      int value
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         !
+            Function Call: legal
+               Base Variable i
+               Base Variable board
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         Empty Statement
+      Function Call: DoMove
+         Base Variable board
+         Base Variable i
+         2
+      Assign (lhs/rhs)
+         Base Variable best_move
+         Base Variable i
+      Assign (lhs/rhs)
+         Base Variable best_value
+         Function Call: value
+            Base Variable board
+      Function Call: UndoMove
+         Base Variable board
+         Base Variable i
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         <
+            Base Variable i
+            10
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         {
+            Function Call: DoMove
+               Base Variable board
+               Base Variable i
+               2
+            Assign (lhs/rhs)
+               Base Variable value
+               Function Call: value
+                  Base Variable board
+            If (test/if body/else body)
+               <
+                  Base Variable value
+                  Base Variable best_value
+               {
+                  Assign (lhs/rhs)
+                     Base Variable best_value
+                     Base Variable value
+                  Assign (lhs/rhs)
+                     Base Variable best_move
+                     Base Variable i
+               }
+               No else statement
+            Function Call: UndoMove
+               Base Variable board
+               Base Variable i
+         }
+      Return
+         Base Variable best_move
+   }
+Function Definition: min Return type: void
+   Formals:
+      int board[][]
+      int level
+      MinMax result
+   {
+      int best_value
+      int best_move
+      int i
+      int value
+      If (test/if body/else body)
+         ==
+            Base Variable level
+            0
+         {
+            Assign (lhs/rhs)
+               Class Variable:
+                  Base Variable result
+                  value
+               Function Call: value
+                  Base Variable board
+            Assign (lhs/rhs)
+               Class Variable:
+                  Base Variable result
+                  move
+               -
+                  0
+                  1
+            Return
+         }
+         No else statement
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         !
+            Function Call: legal
+               Base Variable i
+               Base Variable board
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         Empty Statement
+      Function Call: DoMove
+         Base Variable board
+         Base Variable i
+         2
+      Assign (lhs/rhs)
+         Base Variable best_move
+         Base Variable i
+      Function Call: max
+         Base Variable board
+         -
+            Base Variable level
+            1
+         Base Variable result
+      Assign (lhs/rhs)
+         Base Variable best_value
+         Class Variable:
+            Base Variable result
+            value
+      Function Call: UndoMove
+         Base Variable board
+         Base Variable i
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         <
+            Base Variable i
+            10
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         {
+            Function Call: DoMove
+               Base Variable board
+               Base Variable i
+               2
+            Function Call: max
+               Base Variable board
+               -
+                  Base Variable level
+                  1
+               Base Variable result
+            Assign (lhs/rhs)
+               Base Variable value
+               Class Variable:
+                  Base Variable result
+                  value
+            If (test/if body/else body)
+               <
+                  Base Variable value
+                  Base Variable best_value
+               {
+                  Assign (lhs/rhs)
+                     Base Variable best_value
+                     Base Variable value
+                  Assign (lhs/rhs)
+                     Base Variable best_move
+                     Base Variable i
+               }
+               No else statement
+            Function Call: UndoMove
+               Base Variable board
+               Base Variable i
+         }
+      Assign (lhs/rhs)
+         Class Variable:
+            Base Variable result
+            move
+         Base Variable best_move
+      Assign (lhs/rhs)
+         Class Variable:
+            Base Variable result
+            value
+         Base Variable best_value
+   }
+Function Definition: max Return type: void
+   Formals:
+      int board[][]
+      int level
+      MinMax result
+   {
+      int best_value
+      int best_move
+      int i
+      int value
+      If (test/if body/else body)
+         ==
+            Base Variable level
+            0
+         {
+            Assign (lhs/rhs)
+               Class Variable:
+                  Base Variable result
+                  value
+               Function Call: value
+                  Base Variable board
+            Assign (lhs/rhs)
+               Class Variable:
+                  Base Variable result
+                  move
+               -
+                  0
+                  1
+            Return
+         }
+         No else statement
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            0
+         !
+            Function Call: legal
+               Base Variable i
+               Base Variable board
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         Empty Statement
+      Function Call: DoMove
+         Base Variable board
+         Base Variable i
+         1
+      Assign (lhs/rhs)
+         Base Variable best_move
+         Base Variable i
+      Function Call: min
+         Base Variable board
+         -
+            Base Variable level
+            1
+         Base Variable result
+      Assign (lhs/rhs)
+         Base Variable best_value
+         Class Variable:
+            Base Variable result
+            value
+      Function Call: UndoMove
+         Base Variable board
+         Base Variable i
+      For (initialize/test/increment/body)
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         <
+            Base Variable i
+            10
+         Assign (lhs/rhs)
+            Base Variable i
+            +
+               Base Variable i
+               1
+         {
+            Function Call: DoMove
+               Base Variable board
+               Base Variable i
+               1
+            Function Call: min
+               Base Variable board
+               -
+                  Base Variable level
+                  1
+               Base Variable result
+            Assign (lhs/rhs)
+               Base Variable value
+               Class Variable:
+                  Base Variable result
+                  value
+            If (test/if body/else body)
+               >
+                  Base Variable value
+                  Base Variable best_value
+               {
+                  Assign (lhs/rhs)
+                     Base Variable best_value
+                     Base Variable value
+                  Assign (lhs/rhs)
+                     Base Variable best_move
+                     Base Variable i
+               }
+               No else statement
+            Function Call: UndoMove
+               Base Variable board
+               Base Variable i
+         }
+      Assign (lhs/rhs)
+         Class Variable:
+            Base Variable result
+            move
+         Base Variable best_move
+      Assign (lhs/rhs)
+         Class Variable:
+            Base Variable result
+            value
+         Base Variable best_value
+   }

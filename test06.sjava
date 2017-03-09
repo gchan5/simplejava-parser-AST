@@ -1,0 +1,28 @@
+/* testing functions   */
+
+int foo(int x, int y, boolean z, int w[]);
+void print2(int x, int y);
+
+
+void main() {
+   int x = new int[10];
+
+   print2(foo(3,4,true,x));
+   print2(foo(8,foo(4*5+6, read(), true,x),false, x), 3);
+
+}
+
+int foo(int x, int y, boolean z, int w[]) {
+   if (z)
+      return x + y;
+   else
+      return w[0] + w[1];
+}
+
+void print2(int x, int y) {
+   print(x);
+   print(y);
+   return;
+}
+
+
