@@ -142,11 +142,16 @@ ASTStatements statements():
 }
 
 ASTStatement one_statement():
-{ASTStatement statement;}
+{
+    ASTStatement statement;
+}
 {
     (
         statement = var_statement() {return statement;}
     |   statement = if_else() {return statement;}
+    |   statement = do_while() {return statement;}
+    |   statement = while_statement() {return statement;}
+    |   statement = empty_statement() {return statement;}
     )
 }
 
@@ -189,7 +194,8 @@ ASTStatement var_statement():
     (<SEMICOLON> | <EQUALS> init = expression() <SEMICOLON>)
 
 
-    {   if(isDefinition){
+    {
+        if(isDefinition){
             if (isArrayExpression){
                 if(init == null) {
                     return new ASTVariableDefStatement(type, name, arraydimension, 0);
@@ -336,31 +342,58 @@ ASTClass class_def():
 
 ASTInstanceVariableDef instance_variable():
 {
-ASTStatement statement;
-ASTVariable variable_ = null;
-String name = "";
-String type = "";
-int arraydimension = 0;
-ASTExpression init = null;
-boolean isDefinition = false;
-boolean isArrayExpression = false;
+    ASTStatement statement;
+    ASTVariable variable_ = null;
+    String name = "";
+    String type = "";
+    int arraydimension = 0;
+    ASTExpression init = null;
+    boolean isDefinition = false;
+    boolean isArrayExpression = false;
 }
 {
 
-( LOOKAHEAD(2) type = <IDENTIFIER>.image name = <IDENTIFIER>.image (arraydimension = dimension_consumer() {isArrayExpression = true;})? {isDefinition = true;}
-| LOOKAHEAD(2) variable_ = variable()
-| name = <IDENTIFIER>.image {variable_ = new ASTBaseVariable(name, 0);}
-)
+    ( LOOKAHEAD(2) type = <IDENTIFIER>.image name = <IDENTIFIER>.image (arraydimension = dimension_consumer() {isArrayExpression = true;})? {isDefinition = true;}
+    | LOOKAHEAD(2) variable_ = variable()
+    | name = <IDENTIFIER>.image {variable_ = new ASTBaseVariable(name, 0);}
+    )
 
-(<SEMICOLON> | <EQUALS> init = expression() <SEMICOLON>)
+    (<SEMICOLON> | <EQUALS> init = expression() <SEMICOLON>)
 
 
-{   if(isDefinition){
-        if (isArrayExpression){
-            return new ASTInstanceVariableDef(type, name, arraydimension, 0);
-        }else{
-            return new ASTInstanceVariableDef(type, name, 0);
+    {
+        if(isDefinition){
+            if (isArrayExpression){
+                return new ASTInstanceVariableDef(type, name, arraydimension, 0);
+            } else{
+                return new ASTInstanceVariableDef(type, name, 0);
+            }
         }
     }
 }
+
+ASTDoWhileStatement do_while():
+{
+    ASTStatement s;
+    ASTExpression e;
+}
+{
+    <DO> s = one_statement() <WHILE> <LEFT_PARENTHESIS> e = expression() <RIGHT_PARENTHESIS> <SEMICOLON>
+    {return new ASTDoWhileStatement(e, s, 0);}
+}
+
+ASTWhileStatement while_statement():
+{
+    ASTExpression e;
+    ASTStatement s;
+}
+{
+    <WHILE> <LEFT_PARENTHESIS> e = expression() <RIGHT_PARENTHESIS> (s = one_statement() | <LEFT_BRACE> s = one_statement() <RIGHT_BRACE>)
+    {return new ASTWhileStatement(e, s, 0);}
+}
+
+ASTEmptyStatement empty_statement():
+{}
+{
+    <SEMICOLON> {return new ASTEmptyStatement(0);}
 }
