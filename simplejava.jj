@@ -166,6 +166,7 @@ ASTStatement one_statement():
     (
         LOOKAHEAD(2) statement = increment_statement() <SEMICOLON> {return statement;}
     |   LOOKAHEAD(2) statement = var_statement() <SEMICOLON> {return statement;}
+    |   statement = return_statement() {return statement;}
     |   statement = function_statement() {return statement;}
     |   statement = if_else() {return statement;}
     |   statement = do_while() {return statement;}
@@ -174,6 +175,15 @@ ASTStatement one_statement():
     |   statement = for_statement() {return statement;}
     |   statement = empty_statement() {return statement;}
     )
+}
+
+ASTReturnStatement return_statement():
+{
+    ASTExpression value;
+    int line = 0;
+}
+{
+    <RETURN> (<SEMICOLON> {value = null;} | value = expression() <SEMICOLON>) {return new ASTReturnStatement(value, line);}
 }
 
 ASTAssignmentStatement increment_statement():
@@ -283,9 +293,7 @@ ASTExpression expression():
     boolean only_left = true;
 }
 {
-    left = expression_prime() (LOOKAHEAD(2) (operator = <EQUALS_EQUALS> | operator = <NOT_EQUALS>
-                                | operator = <LESS_THAN> | operator = <LESS_THAN_EQUAL_TO>
-                                | operator = <GREATER_THAN> | operator = <GREATER_THAN_EQUAL_TO>
+    left = expression_prime() (LOOKAHEAD(2) (operator = <OR> | operator = <AND>
         ) right = expression_prime() {
         if (only_left) {
             only_left = false ;
@@ -303,6 +311,25 @@ ASTExpression expression():
 ASTExpression expression_prime():
 {
     ASTExpression left = null;
+    Token operator = null;
+    int line = 0;
+    boolean not = false;
+}
+{
+    (LOOKAHEAD(2) operator = <NOT> {not = true;})? left = expression_prime_prime()  {
+        if (not) {
+            return new ASTUnaryOperatorExpression(left, operator.image, line);
+        } else {
+            return left;
+        }
+    }
+
+    // ASTUnaryOperatorExpression(ASTExpression operand, int operator, int line) 
+}
+
+ASTExpression expression_prime_prime():
+{
+    ASTExpression left = null;
     ASTExpression right = null;
     ASTExpression expression_ = null;
     Token operator = null;
@@ -310,8 +337,10 @@ ASTExpression expression_prime():
     boolean only_left = true;
 }
 {
-    left = expression_prime_prime() (LOOKAHEAD(2) (operator = <PLUS> | operator = <MINUS>
-        ) right = expression_prime_prime() {
+    left = expression_prime_prime_prime() (LOOKAHEAD(2) (operator = <EQUALS_EQUALS> | operator = <NOT_EQUALS>
+                                | operator = <LESS_THAN> | operator = <LESS_THAN_EQUAL_TO>
+                                | operator = <GREATER_THAN> | operator = <GREATER_THAN_EQUAL_TO>
+        ) right = expression_prime_prime_prime() {
         if (only_left) {
             only_left = false ;
             expression_ = new ASTOperatorExpression(left, right, operator.image, line);
@@ -325,7 +354,32 @@ ASTExpression expression_prime():
     // ASTOperatorExpression(ASTExpression left, ASTExpression right, String operator, int line)
 }
 
-ASTExpression expression_prime_prime():
+ASTExpression expression_prime_prime_prime():
+{
+    ASTExpression left = null;
+    ASTExpression right = null;
+    ASTExpression expression_ = null;
+    Token operator = null;
+    int line = 0;
+    boolean only_left = true;
+}
+{
+    left = expression_prime_prime_prime_prime() (LOOKAHEAD(2) (operator = <PLUS> | operator = <MINUS>
+        ) right = expression_prime_prime_prime_prime() {
+        if (only_left) {
+            only_left = false ;
+            expression_ = new ASTOperatorExpression(left, right, operator.image, line);
+        } else {
+            expression_ = new ASTOperatorExpression(expression_, right, operator.image, line);
+        }
+    })*
+
+    {if (only_left) return left; else return expression_;}
+
+    // ASTOperatorExpression(ASTExpression left, ASTExpression right, String operator, int line)
+}
+
+ASTExpression expression_prime_prime_prime_prime():
 {
     ASTExpression left = null;
     ASTExpression right = null;
@@ -361,11 +415,12 @@ ASTExpression expression_base():
     {System.out.println("entered expression_base()");}
     <LEFT_PARENTHESIS> init = expression() <RIGHT_PARENTHESIS> {return init;}
 |   init = new_expression() {return init;}
-|   LOOKAHEAD(2) variable_ = variable() {init = new ASTVariableExpression(variable_, 0); return init;}
-|   init = function_call_expression() {return init;}
+|   LOOKAHEAD(2) init = function_call_expression() {return init;}
+|   variable_ = variable() {init = new ASTVariableExpression(variable_, 0); return init;}
 |   var = <INTEGER_LITERAL> {return new ASTIntegerLiteral(Integer.parseInt(var.image), 0);}
 |   <MINUS> var = <INTEGER_LITERAL> {return new ASTOperatorExpression(new ASTIntegerLiteral(0, 0), new ASTIntegerLiteral(Integer.parseInt(var.image), 0), 2, 0);}
 |   <NOT> init = expression() {return new ASTUnaryOperatorExpression(init, 1, 0);}
+|   (var = <TRUE> | var = <FALSE>) {return new ASTBooleanLiteral(Boolean.parseBoolean(var.image), 0);}
 }
 
 ASTFunctionCallExpression function_call_expression():
@@ -429,13 +484,14 @@ ASTExpression new_expression():
 ASTNewArrayExpression new_array_instance(String type):
 {
     String element;
+    ASTExpression value;
     int arraydimension = 1;
     int line = 0;
 }
 {
-    <LEFT_BRACKET> element = <INTEGER_LITERAL>.image <RIGHT_BRACKET> (arraydimension = dimension_consumer() {arraydimension++;})?
+    <LEFT_BRACKET> value = expression() <RIGHT_BRACKET> (arraydimension = dimension_consumer() {arraydimension++;})?
     {
-        return new ASTNewArrayExpression(type, new ASTIntegerLiteral(Integer.parseInt(element), line), arraydimension, line);
+        return new ASTNewArrayExpression(type, value, arraydimension, line);
     }
 }
 
