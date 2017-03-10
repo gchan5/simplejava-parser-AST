@@ -151,6 +151,7 @@ ASTStatement one_statement():
     |   statement = do_while() {return statement;}
     |   statement = while_statement() {return statement;}
     |   statement = empty_statement() {return statement;}
+    |   statement = for_statement() {return statement;}
     )
 }
 
@@ -163,15 +164,15 @@ ASTAssignmentStatement increment_statement():
     int line = 0;
 }
 {
-    variable_ = <IDENTIFIER> (operator = <PLUS_PLUS> | operator = <MINUS_MINUS>) <SEMICOLON>
+    variable_ = <IDENTIFIER> (operator = <PLUS_PLUS> | operator = <MINUS_MINUS>)
     {return new ASTAssignmentStatement(new ASTBaseVariable(variable_.image, line),
                                            new ASTOperatorExpression(new ASTVariableExpression(new ASTBaseVariable(variable_.image, line), line), new ASTIntegerLiteral(1, line),
-                                                operator.image, line), line);}
+                                                operator.image.substring(1), line), line);}
 }
 
 
 // ASTAssignmentStatement(ASTVariable variable, ASTExpression value, int line)
-// ASTOperatorExpression(ASTExpression left, ASTExpression right, int operator, int line) 
+// ASTOperatorExpression(ASTExpression left, ASTExpression right, int operator, int line)
 
 ASTIfStatement if_else():
 {
@@ -209,7 +210,7 @@ ASTStatement var_statement():
     | name = <IDENTIFIER>.image {variable_ = new ASTBaseVariable(name, 0);}
     )
 
-    (<SEMICOLON> | <EQUALS> init = expression() <SEMICOLON>)
+    (<EQUALS> init = expression())?
 
 
     {   if(isDefinition){
@@ -288,7 +289,7 @@ ASTExpression expression_base():
 
 |   LOOKAHEAD(2) init = new_expression() {return init;} //Idk why this was complaining. I used a <NEW> token afterall..
 |   variable_ = variable() {init = new ASTVariableExpression(variable_, 0); return init;}
-|   var = <INTEGER_LITERAL>.image 
+|   var = <INTEGER_LITERAL>.image
         {init = new ASTIntegerLiteral(Integer.parseInt(var), 0); return init;}
 }
 
@@ -428,7 +429,7 @@ ASTWhileStatement while_statement():
     ASTStatement s;
 }
 {
-    <WHILE> <LEFT_PARENTHESIS> e = expression() <RIGHT_PARENTHESIS> (s = one_statement() | <LEFT_BRACE> s = one_statement() <RIGHT_BRACE>)
+    <WHILE> <LEFT_PARENTHESIS> e = expression() <RIGHT_PARENTHESIS> s = one_statement()
     {return new ASTWhileStatement(e, s, 0);}
 }
 
@@ -436,4 +437,16 @@ ASTEmptyStatement empty_statement():
 {}
 {
     <SEMICOLON> {return new ASTEmptyStatement(0);}
+}
+
+ASTForStatement for_statement():
+{
+    ASTStatement initialize;
+    ASTExpression test;
+    ASTStatement increment;
+    ASTStatement body;
+}
+{
+    <FOR> <LEFT_PARENTHESIS> initialize = var_statement() test = expression() <SEMICOLON> (LOOKAHEAD(2) increment = increment_statement() | increment = var_statement()) <RIGHT_PARENTHESIS> body = one_statement()
+    {return new ASTForStatement(initialize, test, increment, body, 0);}
 }
