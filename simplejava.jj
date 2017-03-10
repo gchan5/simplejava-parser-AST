@@ -105,7 +105,7 @@ ASTProgram program():
     ASTClass ast_class;
 }
 {
-    (ast_class = class_def() {c.addElement(ast_class);})* main = main_func() {f.addElement(main);}
+    (ast_class = class_def() {c.addElement(ast_class); System.out.println("class");})* main = main_func() {f.addElement(main);}
     {return new ASTProgram(c, f, 0);}
     <EOF>
 }
@@ -142,18 +142,36 @@ ASTStatements statements():
 }
 
 ASTStatement one_statement():
-{
-    ASTStatement statement;
-}
+{ASTStatement statement;}
 {
     (
-        statement = var_statement() {return statement;}
+        LOOKAHEAD(2) statement = increment_statement() {return statement;}
+    |   statement = var_statement() {return statement;}
     |   statement = if_else() {return statement;}
     |   statement = do_while() {return statement;}
     |   statement = while_statement() {return statement;}
     |   statement = empty_statement() {return statement;}
     )
 }
+
+ASTAssignmentStatement increment_statement():
+{
+    Token variable_;
+    Token operator;
+    ASTExpression left;
+    ASTExpression right;
+    int line = 0;
+}
+{
+    variable_ = <IDENTIFIER> (operator = <PLUS_PLUS> | operator = <MINUS_MINUS>) <SEMICOLON>
+    {return new ASTAssignmentStatement(new ASTBaseVariable(variable_.image, line),
+                                           new ASTOperatorExpression(new ASTVariableExpression(new ASTBaseVariable(variable_.image, line), line), new ASTIntegerLiteral(1, line),
+                                                operator.image, line), line);}
+}
+
+
+// ASTAssignmentStatement(ASTVariable variable, ASTExpression value, int line)
+// ASTOperatorExpression(ASTExpression left, ASTExpression right, int operator, int line) 
 
 ASTIfStatement if_else():
 {
@@ -194,8 +212,7 @@ ASTStatement var_statement():
     (<SEMICOLON> | <EQUALS> init = expression() <SEMICOLON>)
 
 
-    {
-        if(isDefinition){
+    {   if(isDefinition){
             if (isArrayExpression){
                 if(init == null) {
                     return new ASTVariableDefStatement(type, name, arraydimension, 0);
@@ -236,21 +253,46 @@ int dimension_consumer():
 // expression */ expression
 ASTExpression expression():
 {
+    ASTExpression left = null;
+    ASTExpression right = null;
+    ASTExpression expression_ = null;
+    Token operator = null;
+    int line = 0;
+    boolean only_left = true;
+}
+{
+    left = expression_base() ((operator = <LESS_THAN> | operator = <GREATER_THAN>) right = expression_base() {
+        if (only_left) {
+            only_left = false ;
+            expression_ = new ASTOperatorExpression(left, right, operator.image, line);
+        } else {
+            expression_ = new ASTOperatorExpression(expression_, right, operator.image, line);
+        }
+    })*
+
+    {if (only_left) return left; else return expression_;}
+
+    // ASTOperatorExpression(ASTExpression left, ASTExpression right, String operator, int line)
+}
+
+ASTExpression expression_base():
+{
     ASTVariable variable_ = null;
     ASTExpression init;
     String var;
+    String operator;
 }
 {
     <LEFT_PARENTHESIS> init = expression() <RIGHT_PARENTHESIS> {return init;}
 
-|   init = new_expression() {return init;}
 
-
+|   LOOKAHEAD(2) init = new_expression() {return init;} //Idk why this was complaining. I used a <NEW> token afterall..
 |   variable_ = variable() {init = new ASTVariableExpression(variable_, 0); return init;}
-
-
-|   var = <INTEGER_LITERAL>.image {init = new ASTIntegerLiteral(Integer.parseInt(var), 0); return init;}
+|   var = <INTEGER_LITERAL>.image 
+        {init = new ASTIntegerLiteral(Integer.parseInt(var), 0); return init;}
 }
+
+
 
 ASTVariable variable():
 {
@@ -342,17 +384,16 @@ ASTClass class_def():
 
 ASTInstanceVariableDef instance_variable():
 {
-    ASTStatement statement;
-    ASTVariable variable_ = null;
-    String name = "";
-    String type = "";
-    int arraydimension = 0;
-    ASTExpression init = null;
-    boolean isDefinition = false;
-    boolean isArrayExpression = false;
+ASTStatement statement;
+ASTVariable variable_ = null;
+String name = "";
+String type = "";
+int arraydimension = 0;
+ASTExpression init = null;
+boolean isDefinition = false;
+boolean isArrayExpression = false;
 }
 {
-
     ( LOOKAHEAD(2) type = <IDENTIFIER>.image name = <IDENTIFIER>.image (arraydimension = dimension_consumer() {isArrayExpression = true;})? {isDefinition = true;}
     | LOOKAHEAD(2) variable_ = variable()
     | name = <IDENTIFIER>.image {variable_ = new ASTBaseVariable(name, 0);}
@@ -361,11 +402,10 @@ ASTInstanceVariableDef instance_variable():
     (<SEMICOLON> | <EQUALS> init = expression() <SEMICOLON>)
 
 
-    {
-        if(isDefinition){
+    {   if(isDefinition){
             if (isArrayExpression){
                 return new ASTInstanceVariableDef(type, name, arraydimension, 0);
-            } else{
+            }else{
                 return new ASTInstanceVariableDef(type, name, 0);
             }
         }
