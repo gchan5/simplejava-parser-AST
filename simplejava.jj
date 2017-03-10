@@ -99,30 +99,49 @@ TOKEN :
 //      Class definition
 ASTProgram program():
 {
-    ASTFunction main;
+    ASTFunctionDefinition func;
     ASTFunctionDefinitions f = new ASTFunctionDefinitions();
     ASTClasses c = new ASTClasses();
     ASTClass ast_class;
 }
 {
-    (ast_class = class_def() {c.addElement(ast_class); System.out.println("class");})* main = main_func() {f.addElement(main);}
+    (ast_class = class_def() {c.addElement(ast_class);})*
+    (func = function_declaration() {f.addElement(func);})*
     {return new ASTProgram(c, f, 0);}
     <EOF>
 }
 
 // Matches the functions of form <ID> <ID> params() block()
-ASTFunction main_func():
+ASTFunctionDefinition function_declaration():
 {
-    ASTFunction result;
     ASTStatement statement;
-    String type;
-    String name;
+    ASTFormals formals = new ASTFormals();
+    ASTFormal f;
+    Token type;
+    Token name;
+    boolean semicolon = false;
 }
 {
-    type = <IDENTIFIER>.image name = <IDENTIFIER>.image
-    <LEFT_PARENTHESIS><RIGHT_PARENTHESIS>
-    <LEFT_BRACE> statement = statements()
-        {return new ASTFunction(type, name, new ASTFormals(), statement, 0);}
+    type = <IDENTIFIER> name = <IDENTIFIER> <LEFT_PARENTHESIS> (LOOKAHEAD(2) f = formal() (<COMMA>)?  {formals.addElement(f);})* <RIGHT_PARENTHESIS>
+    (<LEFT_BRACE> | <SEMICOLON> {semicolon = true;})
+    {
+        if(semicolon) {
+            return new ASTPrototype(type.image, name.image, formals, 0);
+        }
+    }
+    statement = statements()
+    {return new ASTFunction(type.image, name.image, formals, statement, 0);}
+}
+
+ASTFormal formal():
+{
+    Token type;
+    Token name;
+    int arraydimension = 0;
+}
+{
+    type = <IDENTIFIER> name = <IDENTIFIER> (<LEFT_BRACKET><RIGHT_BRACKET> {arraydimension++;})*
+    {return new ASTFormal(type.image, name.image, arraydimension, 0);}
 }
 
 // Matches any kind of statement:
@@ -146,7 +165,8 @@ ASTStatement one_statement():
 {
     (
         LOOKAHEAD(2) statement = increment_statement() <SEMICOLON> {return statement;}
-    |   statement = var_statement() <SEMICOLON> {return statement;}
+    |   LOOKAHEAD(2) statement = var_statement() <SEMICOLON> {return statement;}
+    |   statement = function_statement() {return statement;}
     |   statement = if_else() {return statement;}
     |   statement = do_while() {return statement;}
     |   statement = while_statement() {return statement;}
@@ -263,7 +283,7 @@ ASTExpression expression():
     boolean only_left = true;
 }
 {
-    left = expression_prime() ((operator = <EQUALS_EQUALS> | operator = <NOT_EQUALS>
+    left = expression_prime() (LOOKAHEAD(2) (operator = <EQUALS_EQUALS> | operator = <NOT_EQUALS>
                                 | operator = <LESS_THAN> | operator = <LESS_THAN_EQUAL_TO>
                                 | operator = <GREATER_THAN> | operator = <GREATER_THAN_EQUAL_TO>
         ) right = expression_prime() {
@@ -290,7 +310,7 @@ ASTExpression expression_prime():
     boolean only_left = true;
 }
 {
-    left = expression_prime_prime() ((operator = <PLUS> | operator = <MINUS>
+    left = expression_prime_prime() (LOOKAHEAD(2) (operator = <PLUS> | operator = <MINUS>
         ) right = expression_prime_prime() {
         if (only_left) {
             only_left = false ;
@@ -315,7 +335,7 @@ ASTExpression expression_prime_prime():
     boolean only_left = true;
 }
 {
-    left = expression_base() ((operator = <ASTERISK> | operator = <SLASH>
+    left = expression_base() (LOOKAHEAD(2) (operator = <ASTERISK> | operator = <SLASH>
         ) right = expression_base() {
         if (only_left) {
             only_left = false ;
@@ -334,25 +354,37 @@ ASTExpression expression_base():
 {
     ASTVariable variable_ = null;
     ASTExpression init;
-    String var;
+    Token var;
     String operator;
 }
 {
+    {System.out.println("entered expression_base()");}
     <LEFT_PARENTHESIS> init = expression() <RIGHT_PARENTHESIS> {return init;}
-
-
-|   LOOKAHEAD(2) init = new_expression() {return init;} //Idk why this was complaining. I used a <NEW> token afterall..
-|   variable_ = variable() {init = new ASTVariableExpression(variable_, 0); return init;}
-|   var = <INTEGER_LITERAL>.image
-        {init = new ASTIntegerLiteral(Integer.parseInt(var), 0); return init;}
+|   init = new_expression() {return init;}
+|   LOOKAHEAD(2) variable_ = variable() {init = new ASTVariableExpression(variable_, 0); return init;}
+|   init = function_call_expression() {return init;}
+|   var = <INTEGER_LITERAL> {return new ASTIntegerLiteral(Integer.parseInt(var.image), 0);}
+|   <MINUS> var = <INTEGER_LITERAL> {return new ASTOperatorExpression(new ASTIntegerLiteral(0, 0), new ASTIntegerLiteral(Integer.parseInt(var.image), 0), 2, 0);}
+|   <NOT> init = expression() {return new ASTUnaryOperatorExpression(init, 1, 0);}
 }
 
-
+ASTFunctionCallExpression function_call_expression():
+{
+    ASTExpression e;
+    ASTFunctionCallExpression fe = new ASTFunctionCallExpression("", 0);
+    Token name;
+}
+{
+    {System.out.println("entered function_call_expression");}
+    name = <IDENTIFIER> {fe.setname(name.image);} <LEFT_PARENTHESIS> (e = expression() (<COMMA>)? {fe.addElement(e);})* <RIGHT_PARENTHESIS>
+    {return fe;}
+}
 
 ASTVariable variable():
 {
     ASTVariable init;
     String base;
+    System.out.println("entered variable");
 }
 {
     base = <IDENTIFIER>.image
@@ -380,9 +412,6 @@ ASTVariable complex(ASTVariable base):
     // ASTArrayVariable(ASTVariable base, ASTExpression index, int line)
     // ASTClassVariable(ASTVariable base, String variable, int line)
 }
-
-
-
 
 // Goes to either new_array_instance() or new_class_instance()
 // ex:  new int[][][]
@@ -439,14 +468,14 @@ ASTClass class_def():
 
 ASTInstanceVariableDef instance_variable():
 {
-ASTStatement statement;
-ASTVariable variable_ = null;
-String name = "";
-String type = "";
-int arraydimension = 0;
-ASTExpression init = null;
-boolean isDefinition = false;
-boolean isArrayExpression = false;
+    ASTStatement statement;
+    ASTVariable variable_ = null;
+    String name = "";
+    String type = "";
+    int arraydimension = 0;
+    ASTExpression init = null;
+    boolean isDefinition = false;
+    boolean isArrayExpression = false;
 }
 {
     ( LOOKAHEAD(2) type = <IDENTIFIER>.image name = <IDENTIFIER>.image (arraydimension = dimension_consumer() {isArrayExpression = true;})? {isDefinition = true;}
@@ -513,4 +542,16 @@ ASTStatements block_statement():
 {
     <LEFT_BRACE> (s = one_statement() {statements.addElement(s);})* <RIGHT_BRACE>
     {return statements;}
+}
+
+ASTFunctionCallStatement function_statement():
+{
+    Token name;
+    ASTExpression e;
+    ASTFunctionCallStatement f = new ASTFunctionCallStatement("", 0);
+    System.out.println("entered function_statement");
+}
+{
+    name = <IDENTIFIER> {f.setname(name.image);} <LEFT_PARENTHESIS> (e = expression() (<COMMA>)? {f.addElement(e);})* <RIGHT_PARENTHESIS> <SEMICOLON>
+    {return f;}
 }
