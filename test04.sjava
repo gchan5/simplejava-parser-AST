@@ -16,14 +16,14 @@ void main() {
          while (x > 4)
             for(x=0; x<10; x++);
    }
-   do 
+   do
      x++;
    while (x < 10);
    if (x < 3)
      if (y > 2)
        if (z >= 2)
           x++;
-       else 
+       else
           y--;
      else
        z++;

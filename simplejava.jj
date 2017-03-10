@@ -145,13 +145,14 @@ ASTStatement one_statement():
 {ASTStatement statement;}
 {
     (
-        LOOKAHEAD(2) statement = increment_statement() {return statement;}
-    |   statement = var_statement() {return statement;}
+        LOOKAHEAD(2) statement = increment_statement() <SEMICOLON> {return statement;}
+    |   statement = var_statement() <SEMICOLON> {return statement;}
     |   statement = if_else() {return statement;}
     |   statement = do_while() {return statement;}
     |   statement = while_statement() {return statement;}
-    |   statement = empty_statement() {return statement;}
+    |   statement = block_statement() {return statement;}
     |   statement = for_statement() {return statement;}
+    |   statement = empty_statement() {return statement;}
     )
 }
 
@@ -262,7 +263,60 @@ ASTExpression expression():
     boolean only_left = true;
 }
 {
-    left = expression_base() ((operator = <LESS_THAN> | operator = <GREATER_THAN>) right = expression_base() {
+    left = expression_prime() ((operator = <EQUALS_EQUALS> | operator = <NOT_EQUALS>
+                                | operator = <LESS_THAN> | operator = <LESS_THAN_EQUAL_TO>
+                                | operator = <GREATER_THAN> | operator = <GREATER_THAN_EQUAL_TO>
+        ) right = expression_prime() {
+        if (only_left) {
+            only_left = false ;
+            expression_ = new ASTOperatorExpression(left, right, operator.image, line);
+        } else {
+            expression_ = new ASTOperatorExpression(expression_, right, operator.image, line);
+        }
+    })*
+
+    {if (only_left) return left; else return expression_;}
+
+    // ASTOperatorExpression(ASTExpression left, ASTExpression right, String operator, int line)
+}
+
+ASTExpression expression_prime():
+{
+    ASTExpression left = null;
+    ASTExpression right = null;
+    ASTExpression expression_ = null;
+    Token operator = null;
+    int line = 0;
+    boolean only_left = true;
+}
+{
+    left = expression_prime_prime() ((operator = <PLUS> | operator = <MINUS>
+        ) right = expression_prime_prime() {
+        if (only_left) {
+            only_left = false ;
+            expression_ = new ASTOperatorExpression(left, right, operator.image, line);
+        } else {
+            expression_ = new ASTOperatorExpression(expression_, right, operator.image, line);
+        }
+    })*
+
+    {if (only_left) return left; else return expression_;}
+
+    // ASTOperatorExpression(ASTExpression left, ASTExpression right, String operator, int line)
+}
+
+ASTExpression expression_prime_prime():
+{
+    ASTExpression left = null;
+    ASTExpression right = null;
+    ASTExpression expression_ = null;
+    Token operator = null;
+    int line = 0;
+    boolean only_left = true;
+}
+{
+    left = expression_base() ((operator = <ASTERISK> | operator = <SLASH>
+        ) right = expression_base() {
         if (only_left) {
             only_left = false ;
             expression_ = new ASTOperatorExpression(left, right, operator.image, line);
@@ -447,6 +501,16 @@ ASTForStatement for_statement():
     ASTStatement body;
 }
 {
-    <FOR> <LEFT_PARENTHESIS> initialize = var_statement() test = expression() <SEMICOLON> (LOOKAHEAD(2) increment = increment_statement() | increment = var_statement()) <RIGHT_PARENTHESIS> body = one_statement()
+    <FOR> <LEFT_PARENTHESIS> initialize = var_statement() <SEMICOLON> test = expression() <SEMICOLON> (LOOKAHEAD(2) increment = increment_statement() | increment = var_statement()) <RIGHT_PARENTHESIS> body = one_statement()
     {return new ASTForStatement(initialize, test, increment, body, 0);}
+}
+
+ASTStatements block_statement():
+{
+    ASTStatements statements = new ASTStatements();
+    ASTStatement s;
+}
+{
+    <LEFT_BRACE> (s = one_statement() {statements.addElement(s);})* <RIGHT_BRACE>
+    {return statements;}
 }
