@@ -324,7 +324,7 @@ ASTExpression expression_prime():
         }
     }
 
-    // ASTUnaryOperatorExpression(ASTExpression operand, int operator, int line) 
+    // ASTUnaryOperatorExpression(ASTExpression operand, int operator, int line)
 }
 
 ASTExpression expression_prime_prime():
@@ -412,7 +412,6 @@ ASTExpression expression_base():
     String operator;
 }
 {
-    {System.out.println("entered expression_base()");}
     <LEFT_PARENTHESIS> init = expression() <RIGHT_PARENTHESIS> {return init;}
 |   init = new_expression() {return init;}
 |   LOOKAHEAD(2) init = function_call_expression() {return init;}
@@ -430,7 +429,6 @@ ASTFunctionCallExpression function_call_expression():
     Token name;
 }
 {
-    {System.out.println("entered function_call_expression");}
     name = <IDENTIFIER> {fe.setname(name.image);} <LEFT_PARENTHESIS> (e = expression() (<COMMA>)? {fe.addElement(e);})* <RIGHT_PARENTHESIS>
     {return fe;}
 }
@@ -439,7 +437,6 @@ ASTVariable variable():
 {
     ASTVariable init;
     String base;
-    System.out.println("entered variable");
 }
 {
     base = <IDENTIFIER>.image
@@ -558,7 +555,7 @@ ASTDoWhileStatement do_while():
     ASTExpression e;
 }
 {
-    <DO> s = one_statement() <WHILE> <LEFT_PARENTHESIS> e = expression() <RIGHT_PARENTHESIS> <SEMICOLON>
+    <DO> s = one_statement() <WHILE> <LEFT_PARENTHESIS> e = expression() <RIGHT_PARENTHESIS>
     {return new ASTDoWhileStatement(e, s, 0);}
 }
 
@@ -605,7 +602,6 @@ ASTFunctionCallStatement function_statement():
     Token name;
     ASTExpression e;
     ASTFunctionCallStatement f = new ASTFunctionCallStatement("", 0);
-    System.out.println("entered function_statement");
 }
 {
     name = <IDENTIFIER> {f.setname(name.image);} <LEFT_PARENTHESIS> (e = expression() (<COMMA>)? {f.addElement(e);})* <RIGHT_PARENTHESIS> <SEMICOLON>
